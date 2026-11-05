@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: knowledge-hub
+  profiles:
+    default: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+  jpa:
+    open-in-view: false
+server:
+  port: ${PORT:8080}

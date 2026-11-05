@@ -1,0 +1,25 @@
+const paths: Record<string, string> = {
+ upload: 'M12 16V3 M7 8l5-5 5 5 M4 16v5h16v-5',
+ institution: 'M3 21h18 M5 21V8h14v13 M3 8l9-5 9 5 M8 11v6 M12 11v6 M16 11v6',
+ download: 'M12 3v12 M7 10l5 5 5-5 M4 16v5h16v-5',
+ bookmark: 'M6 3h12v18l-6-4-6 4V3',
+ gift: 'M3 8h18v4H3z M5 12v9h14v-9 M12 8v13 M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z',
+ code: 'm8 6-6 6 6 6 M16 6l6 6-6 6 M14 3l-4 18',
+ database: 'M20 5c0 2-4 3-8 3S4 7 4 5s4-3 8-3 8 1 8 3Z M4 5v14c0 2 4 3 8 3s8-1 8-3V5 M4 12c0 2 4 3 8 3s8-1 8-3',
+ spark: 'm12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7',
+ menu: 'M4 6h16 M4 12h16 M4 18h16',
+ clock: 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0 M12 7v5l3 2',
+
+ book: 'M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-3H4V4Zm16 0h-4a3 3 0 0 0-3 3m0 14a4 4 0 0 1 4-3h3V4',
+ grid: 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',
+ user: 'M20 21v-2a6 6 0 0 0-6-6h-4a6 6 0 0 0-6 6v2 M16 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+ users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0 M22 21v-2a4 4 0 0 0-3-3.87 M17 3.13a4 4 0 0 1 0 7.75',
+ shield: 'M12 3 3 7v5c0 5 9 10 9 10s9-5 9-10V7L12 3 M8 12l3 3 5-6',
+ arrow: 'M5 12h14 M13 6l6 6-6 6', logout: 'M9 21H4V3h5 M9 12h12 M16 7l5 5-5 5',
+ plus: 'M12 5v14 M5 12h14', search: 'M21 21l-5-5 M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
+ lock: 'M5 10h14v12H5z M8 10V6a4 4 0 0 1 8 0v4 M12 15v3',
+ check: 'M5 12l4 4L19 6', eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12 M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
+ close: 'M6 6l12 12 M6 18 18 6', mail: 'M3 5h18v14H3z M3 5l9 8 9-8',
+ edit: 'm16 3 5 5-12 12-6 1 1-6L16 3 M14 5l5 5',
+};
+export default function Icon({ name, size = 20 }: { name: string; size?: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] || paths.book}/></svg>; }

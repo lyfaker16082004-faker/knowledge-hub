@@ -1,0 +1,26 @@
+backend/target/
+frontend/node_modules/
+frontend/dist/
+.env
+.env.*
+!.env.example
+*.log
+.idea/
+.DS_Store
+# Local database credentials
+backend/config/
+
+frontend/test-results/
+frontend/playwright-report/
+
+# Local archives, IDE metadata, credentials and generated artifacts
+/backend-starter.zip
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.iml
+.vs/
+Thumbs.db

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/knowledge_hub?serverTimezone=Asia/Bangkok&characterEncoding=UTF-8&connectionCollation=utf8mb4_unicode_ci}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      data-source-properties:
+        characterEncoding: UTF-8
+        connectionCollation: utf8mb4_unicode_ci
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
