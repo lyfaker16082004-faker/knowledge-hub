@@ -1,6 +1,6 @@
 # Knowledge Hub database
 
-MySQL 8.0.16+; 24 application tables plus Flyway history. No Docker required.
+MySQL 8.0.16+; 26 application tables plus Flyway history. No Docker required.
 
 ## Tables
 
@@ -120,3 +120,27 @@ V8 removes eleven optional tables and their JPA entities/repositories. Account/J
 | faculties | Faculty | id, institution_id, name |
 
 user_profiles, documents and posts now have nullable institution_id/faculty_id. A composite foreign key validates the faculty/institution pair, and CHECK forbids a faculty without an institution. Application validation forbids faculty selection for OTHER. See ../organizations.md for ERD, API, upload and ranking behavior.
+
+## Sprint 2 — V10
+
+Current schema: 26 application tables (plus flyway_schema_history), migrations V1–V10. V9 produced 24 tables; V10 adds subjects and document_tags. Earlier migration notes above describe their historical versions.
+
+| Table / field | Purpose |
+|---|---|
+| subjects | Global subject directory: id, name, slug, audit fields |
+| document_tags | Document/tag association, composite primary key document_id + tag_id |
+| documents.subject_id | Optional subject foreign key |
+| documents.review_note | Rejection/review note, Unicode TEXT |
+| documents.reviewed_at / reviewed_by_id | Most recent review time / administrator |
+| documents.status | DRAFT, PENDING, PUBLISHED, REJECTED, ARCHIVED, DELETED |
+| ft_documents_content | MySQL FULLTEXT(title, summary, description) |
+
+```mermaid
+erDiagram
+ subjects o|--o{ documents : subject_id
+ documents ||--o{ document_tags : document_id
+ tags ||--o{ document_tags : tag_id
+ users o|--o{ documents : reviewed_by_id
+```
+
+Soft deletion preserves download/file/history references. No optional report/audit tables were restored. State validation, ownership and optimistic version checks also run in the service layer. See ../library.md for review transitions and endpoints.

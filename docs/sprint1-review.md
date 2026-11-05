@@ -42,6 +42,8 @@ Backend test: .\mvnw.cmd -Dmysql.it=true test. Frontend: npm.cmd run build; npm.
 
 ## Toàn bộ User Story còn lại trong tài liệu
 
+Bảng này ghi nhận trạng thái tại thời điểm chốt Sprint 1. Sprint 2 đã được triển khai tiếp trên nhánh sprint-2; kết quả mới xem [Nghiệm thu Sprint 2](sprint2-review.md).
+
 | Story | Đánh giá | Đối chiếu với code hiện tại |
 |---|---|---|
 | US2.1 Upload tài liệu | Một phần | Có PDF/DOCX/MD/TXT, tiêu đề/tóm tắt/chủ đề, trường/khoa điền sẵn. Giới hạn hiện 10 MB, AC là 20 MB; chưa có Slide/PPT/PPTX và tags cho document |

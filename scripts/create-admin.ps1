@@ -5,7 +5,7 @@ foreach ($key in @('APP_BOOTSTRAP_ENABLED','APP_ADMIN_USERNAME','APP_ADMIN_EMAIL
 try {
  $env:APP_ADMIN_USERNAME = Read-Host 'Tên đăng nhập admin'
  $env:APP_ADMIN_EMAIL = Read-Host 'Email admin'
- $secret = Read-Host 'Mật khẩu (ít nhất 12 ký tự)' -AsSecureString
+ $secret = Read-Host 'Mật khẩu (ít nhất 8 ký tự)' -AsSecureString
  $env:APP_ADMIN_PASSWORD = [System.Net.NetworkCredential]::new('', $secret).Password
  $env:APP_BOOTSTRAP_ENABLED = 'true'
  Push-Location $backend

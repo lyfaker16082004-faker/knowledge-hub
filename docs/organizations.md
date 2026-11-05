@@ -42,16 +42,16 @@ Lọc tổ chức là công cụ khám phá, không phải rào cản truy cập
 - Đăng ký: chọn trường rồi mới chọn khoa. Đổi trường xóa lựa chọn khoa cũ; chọn Khác ẩn khoa.
 - Tài khoản của tôi: cập nhật trường/khoa mà không phải đăng xuất.
 - Thư viện: mặc định trường từ profile, có lựa chọn toàn bộ, chọn khoa và sắp xếp “Tải nhiều 7 ngày”.
-- Đóng góp (#upload): tự điền trường/khoa từ profile; người dùng có thể thay đổi hoặc bỏ gắn tổ chức để chia sẻ toàn cầu.
+- Đóng góp (#upload): tự điền trường/khoa từ profile; backend gắn theo profile, thành viên cần sửa hồ sơ nếu muốn đổi; ADMIN được chọn tổ chức khi thêm giáo trình chuẩn.
 - Chi tiết và thẻ tài liệu hiển thị nhãn trường/khoa và đúng định dạng file.
-- Posts đã có trường dữ liệu và entity mapping để dùng khi phát triển feed; chưa thêm API feed.
+- Posts có trường dữ liệu tổ chức; feed đọc bài đã xuất bản từ người đang theo dõi đã có từ Sprint 1.
 
 ## Upload và lưu trữ
-Form hỗ trợ PDF, DOCX, Markdown, TXT tối đa 10 MB. File được lưu riêng tư tại backend/config/document-storage, được Git bỏ qua; có thể cấu hình app.documents.storage-dir (biến môi trường APP_DOCUMENTS_STORAGE_DIR).
+Form hỗ trợ PDF, PPT/PPTX, DOCX, Markdown, TXT tối đa 20 MB. File được lưu riêng tư tại backend/config/document-storage, được Git bỏ qua; có thể cấu hình app.documents.storage-dir (biến môi trường APP_DOCUMENTS_STORAGE_DIR).
 
 Backend xác thực metadata, tổ hợp trường/khoa, giá FREE=0 / PAID>0 và định dạng tệp; PDF kiểm tra signature, DOCX kiểm tra cấu trúc ZIP/Word cùng giới hạn giải nén, file văn bản cần UTF-8. Tên lưu vật lý dùng UUID, không dùng đường dẫn do client cung cấp. File được dọn nếu transaction thất bại. Download vẫn qua endpoint kiểm tra quyền, không có URL static trực tiếp.
 
-Tài liệu được công bố sau khi upload thành công; không có luồng kiểm duyệt (đã bỏ theo phạm vi đồ án). Thanh toán trực tuyến chưa triển khai; tài liệu có phí cần access grant, còn tác giả có thể tải tài liệu của mình.
+Tài liệu của thành viên vào PENDING sau upload; ADMIN duyệt hoặc từ chối, tác giả chỉnh sửa sẽ gửi duyệt lại. ADMIN thêm giáo trình chuẩn được công bố trực tiếp. Xem library.md. Thanh toán trực tuyến chưa triển khai; tài liệu có phí cần access grant, còn tác giả có thể tải tài liệu của mình.
 
 Ví dụ metadata cho multipart:
 ```json

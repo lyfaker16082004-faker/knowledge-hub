@@ -25,9 +25,9 @@ public class SecurityConfig {
    .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).securityContext(c->c.securityContextRepository(new NullSecurityContextRepository())).requestCache(c->c.disable())
    .authorizeHttpRequests(r->r.requestMatchers("/api/health","/error").permitAll()
     .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/auth/register","/api/auth/login").permitAll()
-    .requestMatchers(org.springframework.http.HttpMethod.GET,"/api/institutions","/api/institutions/*/faculties","/api/categories","/api/documents","/api/documents/*","/api/avatars/*","/api/community/users","/api/community/users/*","/api/community/users/*/posts").permitAll()
+    .requestMatchers(org.springframework.http.HttpMethod.GET,"/api/institutions","/api/institutions/*/faculties","/api/categories","/api/subjects","/api/documents","/api/documents/*","/api/avatars/*","/api/community/users","/api/community/users/*","/api/community/users/*/posts").permitAll()
     .requestMatchers("/api/admin/**").hasRole("ADMIN")
-    .requestMatchers("/api/auth/logout","/api/users/me","/api/users/me/**","/api/community/**").authenticated()
+    .requestMatchers("/api/auth/logout","/api/users/me","/api/users/me/**","/api/documents/*/files/*/preview","/api/documents/*/files/*/preview-text","/api/community/**").authenticated()
     .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/documents","/api/documents/*/files/*/download").authenticated().anyRequest().denyAll())
    .exceptionHandling(e->e.authenticationEntryPoint((req,res,ex)->json(res,401,"Vui lòng đăng nhập bằng JWT hợp lệ")) .accessDeniedHandler((req,res,ex)->json(res,403,"Bạn không có quyền thực hiện thao tác này")))
    .addFilterBefore(new JwtAuthenticationFilter(tokens,details),UsernamePasswordAuthenticationFilter.class).build();

@@ -6,11 +6,11 @@
 
 - **Tài khoản:** đăng ký bằng email, đăng nhập bằng email hoặc username, xác thực JWT, đổi mật khẩu và phân vai trò.
 - **Hồ sơ:** tên hiển thị, giới thiệu bản thân, ảnh đại diện, trường/tổ chức và khoa/chuyên ngành.
-- **Thư viện:** tìm kiếm, lọc theo trường/khoa/chủ đề, upload tài liệu, tải file, lưu tài liệu và xem lịch sử đã tải.
+- **Thư viện:** tìm kiếm full-text, lọc theo môn học/trường/khoa/chủ đề/tags, upload tài liệu, tải file, lưu tài liệu và xem lịch sử đã tải.
 - **Cộng đồng:** hồ sơ công khai, theo dõi/bỏ theo dõi, danh sách người theo dõi và bảng tin bài viết đã xuất bản.
-- **Quản trị riêng với sidebar:** quản lý người dùng, xem chi tiết, phân quyền, đặt lại mật khẩu, xóa mềm và CRUD trường/khoa.
+- **Quản trị riêng với sidebar:** quản lý người dùng, xem chi tiết, phân quyền, đặt lại mật khẩu, xóa mềm CRUD trường/khoa và quản trị/duyệt kho tài liệu.
 
-Sprint 1 đã hoàn thiện. Luồng tạo/sửa bài hỏi đáp, bình luận, bình chọn, thanh toán trực tuyến, xác minh/khôi phục mật khẩu qua email và mô hình AI chưa được triển khai. Tài liệu có phí hiện dùng quyền truy cập do quản trị viên cấp, chưa có cổng thanh toán.
+Sprint 1 và Sprint 2 đã hoàn thiện. Luồng tạo/sửa bài hỏi đáp, bình luận, bình chọn, thanh toán trực tuyến, xác minh/khôi phục mật khẩu qua email và mô hình AI chưa được triển khai. Tài liệu có phí hiện dùng quyền truy cập do quản trị viên cấp, chưa có cổng thanh toán.
 
 ## Công nghệ và yêu cầu
 
@@ -31,7 +31,7 @@ knowledge-hub/
 ├── backend/                  # Spring Boot API và Maven Wrapper
 │   ├── src/main/java/        # Controller, service, repository, entity, security
 │   ├── src/main/resources/
-│   │   └── db/migration/     # Flyway V1–V9
+│   │   └── db/migration/     # Flyway V1–V10
 │   └── src/test/             # Kiểm thử backend
 ├── frontend/                 # React + TypeScript + Vite
 │   ├── src/                  # Giao diện người dùng và quản trị
@@ -142,8 +142,11 @@ Thêm các đường dẫn sau vào địa chỉ frontend, ví dụ `http://loca
 | `/#register`, `/#login` | Đăng ký / Đăng nhập |
 | `/#mine` | Tài liệu đã tải và đã lưu |
 | `/#account` | Hồ sơ cá nhân và đổi mật khẩu |
-| `/#upload` | Đóng góp tài liệu |
+| `/#upload` | Đóng góp tài liệu (thành viên gửi chờ duyệt) |
+| `/#my-documents` | Tài liệu đã đăng, sửa và xóa của tác giả |
 | `/#people` | Cộng đồng và theo dõi |
+| `/#admin/documents` | Quản trị, duyệt/từ chối/ẩn tài liệu — ADMIN |
+| `/#admin/documents/new` | Thêm giáo trình chuẩn — ADMIN |
 | `/#admin/users` | Quản trị người dùng — ADMIN |
 | `/#admin/organizations` | Quản trị trường/khoa — ADMIN |
 
@@ -164,13 +167,13 @@ Xóa mềm chuyển tài khoản sang `DELETED`, giữ dữ liệu liên quan v�
 | `VITE_PROXY_TARGET` | `http://localhost:8080` — backend đích của proxy Vite khi phát triển |
 | `VITE_API_BASE_URL` | `/api` — địa chỉ API dùng khi build frontend |
 
-Đường dẫn lưu trữ mặc định được tính từ thư mục chạy backend. Avatar hỗ trợ PNG/JPEG nhỏ hơn 2 MiB. Tài liệu upload hỗ trợ PDF/DOCX/MD/TXT tối đa 10 MB.
+Đường dẫn lưu trữ mặc định được tính từ thư mục chạy backend. Avatar hỗ trợ PNG/JPEG nhỏ hơn 2 MiB. Tài liệu upload hỗ trợ PDF/PPT/PPTX/DOCX/MD/TXT tối đa 20 MB.
 
 JWT có thời hạn 24 giờ, frontend lưu trong `sessionStorage` của tab. Đổi mật khẩu, thay đổi tài khoản hoặc đăng xuất thu hồi token cũ. Trong `dev`, khóa JWT tự tạo tại `backend/config/jwt-secret.key`; giữ khóa này để token còn hiệu lực sau khởi động lại. Không đưa mật khẩu, khóa ký hoặc dữ liệu upload lên GitHub; cấu hình local nằm trong thư mục đã được bỏ qua.
 
 ## Database và tài liệu
 
-Schema hiện có **24 bảng**, quản lý bằng **9 migration Flyway**. MySQL `utf8mb4` hỗ trợ tiếng Việt và emoji.
+Schema hiện có **26 bảng**, quản lý bằng **10 migration Flyway**. MySQL `utf8mb4` hỗ trợ tiếng Việt và emoji.
 
 - [Schema và ERD](docs/database/schema.md)
 - [SQL cấu trúc và dữ liệu mẫu](docs/database/knowledge_hub.sql)
@@ -179,6 +182,7 @@ Schema hiện có **24 bảng**, quản lý bằng **9 migration Flyway**. MySQL
 - [API tài khoản, hồ sơ và cộng đồng](docs/accounts.md)
 - [Thư viện và quyền truy cập tài liệu](docs/library.md)
 - [Trường/tổ chức và khoa](docs/organizations.md)
+- [Báo cáo nghiệm thu Sprint 2](docs/sprint2-review.md)
 - [Báo cáo nghiệm thu Sprint 1](docs/sprint1-review.md)
 
 Ưu tiên khởi tạo bằng Flyway khi chạy ứng dụng. File SQL độc lập phục vụ tham khảo/minh chứng schema; không import rồi chạy migration trên cùng database mới nếu chưa thiết lập baseline phù hợp. Không sửa các migration đã áp dụng.

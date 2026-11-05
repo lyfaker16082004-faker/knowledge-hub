@@ -64,6 +64,16 @@ public class Document extends BaseEntity {
     public Faculty getFaculty(){return faculty;}
     public void setFaculty(Faculty value){faculty=value;}
 
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="subject_id") private Subject subject;
+    @Column(name="review_note",columnDefinition="TEXT") private String reviewNote;
+    @Column(name="reviewed_at") private LocalDateTime reviewedAt;
+    @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="reviewed_by_id") private User reviewedBy;
+    @ManyToMany @JoinTable(name="document_tags",joinColumns=@JoinColumn(name="document_id"),inverseJoinColumns=@JoinColumn(name="tag_id")) private java.util.Set<Tag> tags=new java.util.LinkedHashSet<>();
+    public Subject getSubject(){return subject;}public void setSubject(Subject value){subject=value;}
+    public String getReviewNote(){return reviewNote;}public void setReviewNote(String value){reviewNote=value;}
+    public LocalDateTime getReviewedAt(){return reviewedAt;}public void setReviewedAt(LocalDateTime value){reviewedAt=value;}
+    public User getReviewedBy(){return reviewedBy;}public void setReviewedBy(User value){reviewedBy=value;}
+    public java.util.Set<Tag> getTags(){return tags;}public void setTags(java.util.Set<Tag> value){tags=value;}
     public Category getCategory() { return category; }
     public void setCategory(Category value) { category=value; }
     public User getAuthor() { return author; }

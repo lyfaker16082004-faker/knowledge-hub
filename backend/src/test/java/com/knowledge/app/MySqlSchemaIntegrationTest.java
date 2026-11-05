@@ -22,7 +22,7 @@ class MySqlSchemaIntegrationTest {
     @Autowired CategoryRepository categories;
 
     @Test void migrationsAndSeedsArePresent() {
-        assertEquals(24, jdbc.queryForObject("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_type = 'BASE TABLE' AND table_name <> 'flyway_schema_history'", Integer.class));
+        assertEquals(26, jdbc.queryForObject("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_type = 'BASE TABLE' AND table_name <> 'flyway_schema_history'", Integer.class));
         assertEquals(3, jdbc.queryForObject("SELECT COUNT(*) FROM roles", Integer.class));
         assertEquals(0, jdbc.queryForObject("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name IN ('permissions', 'role_permissions')", Integer.class));
     }

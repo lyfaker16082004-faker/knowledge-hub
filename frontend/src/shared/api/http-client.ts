@@ -24,3 +24,4 @@ export async function uploadMultipart<T>(path:string,form:FormData):Promise<T>{
  const result=await response.json().catch(()=>null);if(!response.ok){if(response.status===401)expired();throw new ApiError(response.status,result?.message||'Không thể tải tệp. Vui lòng thử lại.');}return result.data as T;
 }
 export function uploadDocument<T>(metadata:unknown,file:File){const form=new FormData();form.append('metadata',new Blob([JSON.stringify(metadata)],{type:'application/json'}));form.append('file',file);return uploadMultipart<T>('/documents',form);}
+export async function previewFile(documentId:number,fileId:number){const response=await fetch(`${baseUrl}/documents/${documentId}/files/${fileId}/preview`,{credentials:'omit',headers:authorization()});if(!response.ok){const result=await response.json().catch(()=>null);if(response.status===401)expired();throw new ApiError(response.status,result?.message||'Không thể mở tệp xem trước.');}return response.blob();}

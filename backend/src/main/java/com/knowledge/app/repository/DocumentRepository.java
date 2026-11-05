@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-public interface DocumentRepository extends JpaRepository<Document,Long> {
+public interface DocumentRepository extends JpaRepository<Document,Long>, JpaSpecificationExecutor<Document> {
  @EntityGraph(attributePaths={"category","author","institution","faculty"})
  @Query("select d from Document d where d.status='PUBLISHED' and d.category.active=true and (:category is null or d.category.id=:category) and (:institution is null or d.institution.id=:institution) and (:faculty is null or d.faculty.id=:faculty) and (:access='' or d.accessType=:access) and (lower(d.title) like lower(concat('%',:q,'%')) or lower(d.summary) like lower(concat('%',:q,'%')))")
  Page<Document> catalogue(@Param("q") String query,@Param("category") Long category,@Param("access") String access,@Param("institution") Long institution,@Param("faculty") Long faculty,Pageable page);
