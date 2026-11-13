@@ -15,6 +15,7 @@ public interface DocumentService {
  ManagedDocument update(Long userId,boolean admin,Long id,com.knowledge.app.model.dto.request.document.EditDocumentRequest request);
  void delete(Long userId,boolean admin,Long id,Long version);
  ManagedDocument review(Long adminId,Long id,String action,String note,Long version);
- DownloadPayload preview(Long viewer,Long documentId,Long fileId);
+ DownloadPayload preview(Long viewer,Long documentId,Long fileId);DownloadPayload sample(Long viewer,Long documentId,Long fileId);
  record DownloadPayload(byte[] bytes,String fileName,String contentType) {}
 }
+

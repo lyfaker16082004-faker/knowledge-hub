@@ -16,7 +16,7 @@ Sprint 1 và Sprint 2 đã hoàn thiện. Luồng tạo/sửa bài hỏi đáp, 
 
 | Thành phần | Công nghệ / yêu cầu |
 |---|---|
-| Backend | Java 21+, Spring Boot 4, Spring Security, Spring Data JPA |
+| Backend | Java 17+, Spring Boot 4, Spring Security, Spring Data JPA |
 | Frontend | React 19, TypeScript, Vite; Node.js 22.12+ và npm |
 | Database | MySQL 8.0.16+, Flyway migrations |
 | Xác thực | JWT HS256, BCrypt, vai trò ADMIN / MODERATOR / USER |

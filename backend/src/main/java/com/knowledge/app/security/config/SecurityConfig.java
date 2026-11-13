@@ -25,7 +25,7 @@ public class SecurityConfig {
    .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).securityContext(c->c.securityContextRepository(new NullSecurityContextRepository())).requestCache(c->c.disable())
    .authorizeHttpRequests(r->r.requestMatchers("/api/health","/error").permitAll()
     .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/auth/register","/api/auth/login").permitAll()
-    .requestMatchers(org.springframework.http.HttpMethod.GET,"/api/institutions","/api/institutions/*/faculties","/api/categories","/api/subjects","/api/documents","/api/documents/*","/api/avatars/*","/api/community/users","/api/community/users/*","/api/community/users/*/posts").permitAll()
+    .requestMatchers(org.springframework.http.HttpMethod.GET,"/api/institutions","/api/institutions/*/faculties","/api/categories","/api/subjects","/api/documents","/api/documents/*","/api/documents/*/files/*/sample","/api/avatars/*","/api/community/users","/api/community/users/*","/api/community/users/*/posts").permitAll()
     .requestMatchers("/api/admin/**").hasRole("ADMIN")
     .requestMatchers("/api/auth/logout","/api/users/me","/api/users/me/**","/api/documents/*/files/*/preview","/api/documents/*/files/*/preview-text","/api/community/**").authenticated()
     .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/documents","/api/documents/*/files/*/download").authenticated().anyRequest().denyAll())
@@ -34,3 +34,4 @@ public class SecurityConfig {
  }
  private static void json(HttpServletResponse response,int status,String message)throws IOException{response.setStatus(status);response.setContentType("application/json");response.setCharacterEncoding("UTF-8");response.getWriter().write("{\"success\":false,\"message\":\""+message+"\",\"data\":null}");}
 }
+

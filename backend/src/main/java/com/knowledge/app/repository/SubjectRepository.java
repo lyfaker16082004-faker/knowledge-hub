@@ -1,5 +1,9 @@
 package com.knowledge.app.repository;
+
 import com.knowledge.app.model.entity.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
-public interface SubjectRepository extends JpaRepository<Subject,Long>{List<Subject> findAllByOrderByNameAsc();}
+
+public interface SubjectRepository extends JpaRepository<Subject, Long> {
+    List<Subject> findAllByOrderByNameAsc();
+}

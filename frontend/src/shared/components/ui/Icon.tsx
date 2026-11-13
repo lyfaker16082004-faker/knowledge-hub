@@ -21,5 +21,12 @@ const paths: Record<string, string> = {
  check: 'M5 12l4 4L19 6', eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12 M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
  close: 'M6 6l12 12 M6 18 18 6', mail: 'M3 5h18v14H3z M3 5l9 8 9-8',
  edit: 'm16 3 5 5-12 12-6 1 1-6L16 3 M14 5l5 5',
+ trash: 'M3 6h18 M8 6V4h8v2 M19 6l-1 15H6L5 6 M10 11v6 M14 11v6',
+ chevronLeft: 'm15 18-6-6 6-6', chevronRight: 'm9 18 6-6-6-6',
+ heart: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z',
+ message: 'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z',
+ share: 'M18 8a3 3 0 1 0-2.8-4 M6 15a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm12-9-9.4 5.5 M8.6 16.5 16 7',
+ refresh: 'M20 7v5h-5 M4 17v-5h5 M5.6 9A7 7 0 0 1 18.3 6L20 8 M4 16l1.7 2A7 7 0 0 0 18.4 15',
+ eyeOff: 'M3 3l18 18 M9.9 5.2A11 11 0 0 1 12 5c6 0 10 7 10 7a19 19 0 0 1-3.2 3.9 M6.2 6.2A20 20 0 0 0 2 12s4 7 10 7a12 12 0 0 0 5.3-1.3 M10 10a3 3 0 0 0 4 4',
 };
 export default function Icon({ name, size = 20 }: { name: string; size?: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] || paths.book}/></svg>; }
