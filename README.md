@@ -200,7 +200,8 @@ Database và file upload **không nằm trên GitHub** (repo công khai, dữ li
 rồi gửi file `team-data/knowledge-hub-data-<ngày>.zip` qua Drive / Zalo. Người nhận **tắt backend**, chạy:
 
 ```powershell
-.\scriptsestore-team-data.ps1 -Package "D:\Downloads\knowledge-hub-data-<ngày>.zip"
+.\scripts
+estore-team-data.ps1 -Package "D:\Downloads\knowledge-hub-data-<ngày>.zip"
 ```
 
 Script tự tạo database `knowledge_hub` nếu chưa có, sao lưu dữ liệu cũ vào `backend/storage/backups/`, nạp database và giải nén tài liệu / ảnh vào `backend/storage/`. Sau đó chạy backend như bình thường.
@@ -209,7 +210,7 @@ Script tự tạo database `knowledge_hub` nếu chưa có, sao lưu dữ liệu
 
 ```powershell
 # 1. Tạo tài khoản quản trị quantri / 12345678
-& "C:\Program Files\MySQL\MySQL Server 8.0in\mysql.exe" -uroot -p --default-character-set=utf8mb4 knowledge_hub -e "source scripts/create-demo-admin.sql"
+& "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -uroot -p --default-character-set=utf8mb4 knowledge_hub -e "source scripts/create-demo-admin.sql"
 # 2. Backend đang chạy, tạo tài khoản, bài viết, bình luận, tài liệu mẫu
 python scripts/seed_demo_data.py
 # 3. (Tuỳ chọn) Thêm tài liệu PPTX / DOCX / ZIP / PDF lấy từ internet
