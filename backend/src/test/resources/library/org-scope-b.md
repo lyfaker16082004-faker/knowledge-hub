@@ -1,2 +1,0 @@
-# Organization test
-Tiếng Việt 📚

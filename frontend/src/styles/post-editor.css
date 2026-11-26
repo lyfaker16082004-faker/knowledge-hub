@@ -1,0 +1,268 @@
+/*
+ * Form đăng bài cộng đồng: ô chọn chủ đề có tìm kiếm (cat-picker), trình soạn thảo Markdown (md-editor)
+ * và phần hiển thị nội dung Markdown (md-content).
+ */
+
+/* =========================================================
+   Ô CHỌN CHỦ ĐỀ
+   ========================================================= */
+.cat-picker { position: relative; }
+
+.cat-picker-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--cf-line, #e4e6f0);
+  border-radius: 10px;
+  background: #fff;
+  color: #9aa0b8;
+  transition: border-color .15s, box-shadow .15s;
+}
+.cat-picker.is-open .cat-picker-field,
+.cat-picker-field:focus-within {
+  border-color: var(--cf-brand, #2f2cb8);
+  box-shadow: 0 0 0 3px #2f2cb822;
+}
+/*
+ * Ô nhập nằm BÊN TRONG một khung đã có viền (ô chủ đề, ô thẻ) thì không cần viền riêng.
+ * Phải viết selector dài để thắng rule chung ".public-app input:not(...):not(...):not(...)" trong ui-polish.css.
+ */
+.cf-editor .cat-picker-field input:not([type=checkbox]):not([type=radio]):not([type=file]),
+.cf-editor .cf-tag-input input:not([type=checkbox]):not([type=radio]):not([type=file]) {
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.cf-editor .cat-picker-field input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: none;
+  color: var(--cf-ink, #15173a);
+}
+.cat-picker-clear {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: #f1f2f8;
+  color: #6b7090;
+  cursor: pointer;
+}
+.cat-picker-clear:hover { background: #e4e6f0; }
+
+/* Danh sách nằm ngay dưới ô nhập (không dùng position:absolute để không bị cắt trong hộp thoại) */
+.cat-picker-panel {
+  margin-top: 6px;
+  border: 1px solid var(--cf-line, #e4e6f0);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px #15173a14;
+  overflow: hidden;
+}
+.cat-picker-panel ul { margin: 0; padding: 0; list-style: none; }
+.cat-picker-panel > ul { max-height: 280px; overflow-y: auto; padding: 6px; }
+.cat-picker-group {
+  display: block;
+  padding: 8px 10px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #9aa0b8;
+}
+.cat-picker-panel li[role="option"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--cf-text, #3f4560);
+  cursor: pointer;
+}
+.cat-picker-panel li[role="option"].is-active { background: var(--cf-bg-hover, #f5f5fe); color: var(--cf-ink, #15173a); }
+.cat-picker-panel li[role="option"][aria-selected="true"] { font-weight: 600; color: var(--cf-brand, #2f2cb8); }
+.cat-picker-panel li small { font-size: 12px; color: #9aa0b8; }
+
+.cat-picker-empty { display: grid; gap: 10px; justify-items: start; padding: 14px; }
+.cat-picker-empty p { margin: 0; font-size: 13.5px; color: var(--cf-text, #3f4560); }
+.cat-picker-empty small { font-size: 12px; line-height: 1.5; color: #9aa0b8; }
+.cat-picker-empty .button { white-space: normal; text-align: left; }
+
+/* =========================================================
+   TRÌNH SOẠN THẢO MARKDOWN
+   ========================================================= */
+.md-editor {
+  position: relative;
+  border: 1px solid var(--cf-line, #e4e6f0);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s;
+}
+.md-editor:focus-within { border-color: var(--cf-brand, #2f2cb8); box-shadow: 0 0 0 3px #2f2cb822; }
+
+.md-editor-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--cf-line, #e4e6f0);
+  background: #fafbfe;
+}
+.md-tabs { display: flex; gap: 2px; }
+.md-tabs button, .md-tools button {
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.md-tabs button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7090;
+}
+.md-tabs button[aria-selected="true"] { background: #fff; color: var(--cf-ink, #15173a); box-shadow: 0 1px 2px #15173a14, 0 0 0 1px var(--cf-line, #e4e6f0); }
+
+.md-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; }
+.md-tools button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4b5170;
+}
+.md-tools button:hover { background: #eef0f8; color: var(--cf-ink, #15173a); }
+.md-tools .md-image-button { margin-left: 4px; font-weight: 600; color: var(--cf-brand, #2f2cb8); background: var(--cf-soft, #ecebfd); }
+.md-tools .md-image-button:hover { background: #dedcfb; }
+
+.md-write { position: relative; }
+.cf-editor .md-write textarea {
+  display: block;
+  width: 100%;
+  min-height: 240px;
+  padding: 14px;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  box-shadow: none;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.md-drop-hint {
+  position: absolute;
+  inset: 8px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  border: 2px dashed var(--cf-brand, #2f2cb8);
+  border-radius: 10px;
+  background: #f5f5feee;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cf-brand, #2f2cb8);
+  pointer-events: none;
+}
+
+.md-preview { min-height: 240px; max-height: 480px; overflow-y: auto; padding: 14px 16px; }
+.md-empty { margin: 0; font-size: 13.5px; color: #9aa0b8; }
+
+.md-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 12px;
+  border-top: 1px solid var(--cf-line, #e4e6f0);
+  background: #fafbfe;
+  font-size: 12px;
+  color: #9aa0b8;
+}
+.md-footer > span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+.md-footer .is-near-limit { color: #b45309; font-weight: 600; }
+.md-footer .spinner.small { width: 12px; height: 12px; border-width: 2px; }
+.md-editor + .cf-form-error, .md-editor .cf-form-error { margin: 0; padding: 8px 12px; }
+
+/* =========================================================
+   HIỂN THỊ NỘI DUNG MARKDOWN (bài viết + xem trước)
+   ========================================================= */
+.md-content { font-size: 14.5px; line-height: 1.75; color: var(--cf-text, #3f4560); overflow-wrap: anywhere; }
+.md-content > :first-child { margin-top: 0; }
+.md-content p { margin: 0 0 12px; white-space: normal; }
+.md-content h3, .md-content h4, .md-content h5 { margin: 18px 0 8px; line-height: 1.35; color: var(--cf-ink, #15173a); }
+.md-content h3 { font-size: 18px; }
+.md-content h4 { font-size: 16px; }
+.md-content h5 { font-size: 14.5px; }
+.md-content ul, .md-content ol { margin: 0 0 12px; padding-left: 22px; }
+.md-content li { margin: 3px 0; }
+.md-content blockquote {
+  margin: 0 0 12px;
+  padding: 8px 14px;
+  border-left: 3px solid var(--cf-brand, #2f2cb8);
+  border-radius: 0 8px 8px 0;
+  background: #f5f5fe;
+  color: #4b5170;
+}
+.md-content blockquote p { margin: 0; }
+.md-content code {
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: .9em;
+  background: #eef0f8;
+  color: #b4235a;
+}
+.md-content pre {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #15173a;
+  color: #e6e8f5;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+.md-content pre code { padding: 0; background: none; color: inherit; font-size: inherit; }
+.md-content a { color: var(--cf-brand, #2f2cb8); }
+
+/* Ảnh: tự co theo chiều rộng, bấm để mở ảnh gốc */
+.md-content .md-image { display: inline-block; max-width: 100%; margin: 4px 0; vertical-align: top; }
+.md-content .md-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 520px;
+  height: auto;
+  border: 1px solid var(--cf-line, #e4e6f0);
+  border-radius: 10px;
+  background: #f8f9fc;
+  cursor: zoom-in;
+}
+
+@media (max-width: 600px) {
+  .md-editor-bar { padding: 6px; }
+  .md-tools button { min-width: 30px; height: 30px; padding: 0 6px; }
+  .md-footer { flex-direction: column; align-items: flex-start; gap: 4px; }
+}

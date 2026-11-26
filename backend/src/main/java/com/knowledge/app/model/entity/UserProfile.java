@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng user_profiles: hồ sơ của người dùng (tên hiển thị, giới thiệu, ảnh, trường/khoa).
+ */
 @Entity
 @Table(name = "user_profiles")
 public class UserProfile extends BaseEntity {

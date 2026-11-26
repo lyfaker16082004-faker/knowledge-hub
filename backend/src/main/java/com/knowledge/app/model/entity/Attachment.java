@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng attachments: file / ảnh đính kèm của bài viết.
+ */
 @Entity
 @Table(name = "attachments")
 public class Attachment extends BaseEntity {

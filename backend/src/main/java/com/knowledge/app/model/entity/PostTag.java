@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng post_tags: nối bài viết với thẻ (tag).
+ */
 @Entity
 @Table(name = "post_tags", uniqueConstraints = {@UniqueConstraint(columnNames = {"post_id", "tag_id"})})
 public class PostTag extends BaseEntity {

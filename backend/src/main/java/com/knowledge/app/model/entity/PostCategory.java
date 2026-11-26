@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng post_categories: nối bài viết với chủ đề.
+ */
 @Entity
 @Table(name = "post_categories", uniqueConstraints = {@UniqueConstraint(columnNames = {"post_id", "category_id"})})
 public class PostCategory extends BaseEntity {

@@ -1,0 +1,73 @@
+/* Trang hồ sơ thành viên và khối "Hoạt động cộng đồng" */
+
+/* ----- Thẻ hồ sơ ----- */
+.mp-card {
+  background: #fff; border: 1px solid #e4e6f0; border-radius: 18px; overflow: hidden;
+  box-shadow: 0 2px 10px #15173a0d; margin-bottom: 18px;
+}
+.mp-cover { height: 120px; background: linear-gradient(120deg, #3b37c9 0%, #6d6ae8 45%, #10a6bd 100%); }
+.mp-card-body { display: flex; align-items: flex-end; gap: 20px; padding: 0 28px 18px; flex-wrap: wrap; }
+.mp-avatar {
+  width: 112px; height: 112px; margin-top: -56px; flex-shrink: 0; border-radius: 50%; overflow: hidden;
+  display: grid; place-items: center; border: 4px solid #fff; background: #dcdcfa; color: #1e1b8f;
+  font-size: 34px; font-weight: 800; box-shadow: 0 6px 18px #12124a26;
+}
+.mp-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.mp-identity { flex: 1; min-width: 220px; padding-top: 14px; }
+.mp-identity h2 { margin: 0; font-size: 24px; color: #15173a; }
+.mp-username { margin: 2px 0 8px; color: #8a8fa8; font-size: 14px; }
+.mp-org { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 13.5px; color: #3a3f5c; }
+.mp-bio { margin: 0; color: #5d6280; font-size: 14px; line-height: 1.6; max-width: 640px; }
+.mp-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 4px; }
+
+.mp-counts { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-top: 1px solid #eceef7; }
+.mp-counts div { padding: 14px 10px; text-align: center; }
+.mp-counts div + div { border-left: 1px solid #eceef7; }
+.mp-counts dt { font-size: 12.5px; color: #8a8fa8; }
+.mp-counts dd { margin: 2px 0 0; font-size: 22px; font-weight: 800; color: #1e1b8f; }
+
+/* ----- Ô thống kê ----- */
+.mp-activity { margin-bottom: 24px; }
+.mp-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+.mp-stat {
+  display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 14px;
+  background: #fff; border: 1px solid #e4e6f0;
+}
+.mp-stat > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+.mp-stat strong { font-size: 20px; line-height: 1.2; color: #15173a; }
+.mp-stat small { font-size: 12px; color: #8a8fa8; }
+.mp-stat-icon { width: 38px; height: 38px; flex-shrink: 0; display: grid; place-items: center; border-radius: 11px; }
+.mp-stat.t-amber .mp-stat-icon { background: #fff7e6; color: #b45309; }
+.mp-stat.t-green .mp-stat-icon { background: #ecfdf5; color: #059669; }
+.mp-stat.t-blue .mp-stat-icon { background: #e0f2fe; color: #0369a1; }
+.mp-stat.t-violet .mp-stat-icon { background: #ecebfd; color: #2f2cb8; }
+.mp-stat.t-rose .mp-stat-icon { background: #fff1f2; color: #be123c; }
+.mp-stat.t-slate .mp-stat-icon { background: #f1f5f9; color: #475569; }
+
+/* ----- Danh sách bài viết ----- */
+.mp-posts-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.mp-posts-head h2 { margin: 0; font-size: 18px; }
+.mp-filter { display: inline-flex; gap: 2px; padding: 3px; border-radius: 10px; background: #f1f2f8; }
+.mp-filter button { border: 0; background: none; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: #5d6280; cursor: pointer; }
+.mp-filter button[aria-pressed=true] { background: #fff; color: #1e1b8f; box-shadow: 0 1px 3px #15173a1f; }
+.mp-post-list { display: grid; gap: 12px; }
+
+@media (max-width: 900px) {
+  .mp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .mp-card-body { flex-direction: column; align-items: center; text-align: center; padding: 0 18px 16px; }
+  .mp-identity { min-width: 0; padding-top: 6px; }
+  .mp-org { justify-content: center; }
+  .mp-actions { justify-content: center; }
+  .mp-counts dd { font-size: 18px; }
+}
+
+/* Số theo dõi bấm được để mở danh sách */
+.mp-count-button { width: 100%; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; border-radius: 10px; }
+.mp-count-label { display: block; font-size: 12.5px; color: #8a8fa8; }
+.mp-count-value { display: block; margin-top: 2px; font-size: 22px; font-weight: 800; color: #1e1b8f; }
+.mp-count-button:hover .mp-count-value, .mp-count-button:focus-visible .mp-count-value { text-decoration: underline; }
+.mp-count-button:hover { background: #f6f6fe; }
+.adm-dialog .follow-panel { padding-top: 0; }
+.adm-dialog .follow-list { grid-template-columns: 1fr; }

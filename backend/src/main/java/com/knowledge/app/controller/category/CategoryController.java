@@ -1,12 +1,28 @@
 package com.knowledge.app.controller.category;
-import com.knowledge.app.repository.CategoryRepository;
-import com.knowledge.app.common.response.ApiResponse;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.knowledge.app.common.response.ApiResponse;
+import com.knowledge.app.model.dto.response.category.CategoryOption;
+import com.knowledge.app.service.category.CategoryService;
+
+/**
+ * API danh sách chủ đề đang hoạt động.
+ */
 @RestController
 public class CategoryController {
- private final CategoryRepository categories;
- public CategoryController(CategoryRepository categories){this.categories=categories;}
- @GetMapping("/api/categories") public ApiResponse<List<Option>> categories(){return ApiResponse.ok(categories.findByActiveTrueOrderByNameAsc().stream().map(c->new Option(c.getId(),c.getName())).toList());}
- public record Option(Long id,String name){}
+
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @GetMapping("/api/categories")
+    public ApiResponse<List<CategoryOption>> categories() {
+        return ApiResponse.ok(categoryService.activeCategories());
+    }
 }

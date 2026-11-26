@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng comments: bình luận / câu trả lời, có thể trả lời bình luận khác (parent).
+ */
 @Entity
 @Table(name = "comments", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "post_id"})})
 public class Comment extends BaseEntity {

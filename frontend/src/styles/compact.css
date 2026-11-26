@@ -1,0 +1,216 @@
+/*
+ * Compact layer — loaded last (see main.tsx).
+ * Smaller type scale, buttons, inputs and icon containers across the app,
+ * plus the extra home-page sections (topics, steps, contribute, FAQ).
+ */
+
+/* ---------- Type scale ---------- */
+body { font-size: 14px; }
+h1 { font-size: clamp(21px, 2.4vw, 27px); letter-spacing: -.6px; line-height: 1.35; }
+h2 { font-size: 16px; }
+h3 { font-size: 14.5px; }
+p { line-height: 1.65; }
+small { font-size: 12px; }
+.section-kicker, .public-app .section-kicker { font-size: 10.5px; margin-bottom: 6px; }
+
+/* ---------- Buttons & controls ---------- */
+.button, .public-app .button, .auth-route .button, .admin-shell .button, .admin-content .button {
+  min-height: 36px; padding: 7px 14px; font-size: 13px; gap: 6px; border-radius: 9px;
+}
+.button.compact, .public-app .button.compact, .admin-shell .button.compact { min-height: 30px; padding: 5px 10px; font-size: 12.5px; }
+.button.full { min-height: 40px; }
+.text-button, .admin-shell .row-actions .text-button { font-size: 12.5px; padding: 5px 6px; }
+.icon-button { width: 30px; height: 30px; }
+.eye-button { width: 30px; height: 30px; top: 5px; }
+
+input:not([type=checkbox]):not([type=radio]):not([type=file]), select,
+.public-app input:not([type=checkbox]):not([type=radio]):not([type=file]), .public-app select,
+.admin-shell input:not([type=checkbox]):not([type=radio]):not([type=file]), .admin-shell select,
+.auth-route input:not([type=checkbox]):not([type=radio]), .auth-route select {
+  height: 40px; font-size: 13.5px; padding-top: 8px; padding-bottom: 8px;
+}
+.public-app select, .admin-shell select, .auth-route select { padding-top: 0; padding-bottom: 0; }
+textarea, .public-app textarea, .admin-shell textarea { font-size: 13.5px; }
+.field { font-size: 13px; gap: 6px; margin: 14px 0; }
+.public-app .field > label, .public-app .field-label, .admin-shell .field > label { font-size: 12.5px; }
+.public-app .filter-panel select, .public-app .filter-panel input:not([type=radio]):not([type=checkbox]) { height: 38px; font-size: 13px; }
+.public-app .catalogue-toolbar select { height: 34px; font-size: 12.5px; }
+
+/* ---------- Badges, avatars, icon tiles ---------- */
+.public-app .access-badge, .public-app .level-tag, .public-app .category-label,
+.admin-shell .status, .admin-shell .role-badge { font-size: 11px; }
+.avatar { width: 32px; height: 32px; font-size: 12px; }
+.avatar.large { width: 54px; height: 54px; font-size: 17px; }
+.mini-icon, .tile-icon { width: 32px; height: 32px; border-radius: 9px; }
+
+/* ---------- Side rail ---------- */
+.public-app.rail-app { --rail-w: 92px; }
+.side-rail { gap: 16px; padding: 18px 0; }
+.rail-logo { width: 38px; height: 38px; border-radius: 11px; }
+.rail-plus { width: 44px; height: 44px; margin: 6px 0; box-shadow: 0 0 0 3px #c9cbf3, 0 6px 14px #1e1b8f38; }
+.rail-nav > a { gap: 4px; padding: 8px 4px; font-size: 11px; border-radius: 10px; }
+.rail-avatar { width: 42px; height: 42px; border-width: 2px; }
+.rail-login { font-size: 11px; }
+.rail-footer { font-size: 11.5px; padding: 14px 24px; }
+
+/* ---------- Document cards ---------- */
+.document-card-body h3, .public-app .document-card-body h3 { font-size: 14.5px; }
+.public-app .catalogue-results .document-card-body > p, .document-card-body > p { font-size: 12.5px; }
+.public-app .card-meta, .card-bottom { font-size: 12px; }
+.document-cover-title { font-size: 13px !important; top: 12px !important; }
+.cover-format { font-size: 10px; }
+
+/* ---------- Home ---------- */
+.home-dashboard { padding: 20px 0 32px; }
+.home-welcome { padding: 34px 20px 38px; border-radius: 22px; }
+.home-welcome h1 { font-size: clamp(21px, 2.5vw, 28px); letter-spacing: -.4px; }
+.home-welcome > p { margin: 6px 0 20px; font-size: 13.5px; }
+.home-search { max-width: 500px; gap: 10px; }
+.home-search label { height: 44px; padding: 0 16px; gap: 10px; }
+.public-app .home-search input:not([type=checkbox]):not([type=radio]):not([type=file]) { font-size: 13.5px; height: 100%; }
+.home-search button { width: 44px; height: 44px; }
+.home-stats { gap: 14px; margin: 22px 0 34px; }
+.home-stat-card { padding: 14px; gap: 12px; border-radius: 12px; }
+.home-stat-icon { width: 36px; height: 36px; border-radius: 10px; }
+.home-stat-body strong { font-size: 21px; }
+.home-stat-body span { font-size: 12.5px; }
+.home-stat-body p { font-size: 11.5px; }
+.home-row, .home-section { margin-bottom: 36px; }
+.home-row-head { margin-bottom: 14px; }
+.home-row-head h2 { font-size: 17px; }
+.home-row-actions { gap: 10px; }
+.home-sort-button { font-size: 12px; padding: 5px 8px; }
+.home-view-all { font-size: 12.5px; padding: 6px 12px; gap: 6px; border-radius: 9px; }
+.material-row { gap: 18px; }
+/* full 3:2 illustration, no crop; the title is printed under the image */
+.material-card .document-cover, .material-card .document-cover:has(.document-cover-image) { aspect-ratio: 3 / 2; border-radius: 12px; }
+.material-card .document-cover-title, .material-card .document-cover:has(.document-cover-image):after { display: none; }
+.material-card h3 { font-size: 13.5px; margin: 10px 0 2px; }
+.material-card p { font-size: 11.5px; }
+.public-app .public-cta { padding: 22px 24px; gap: 16px; }
+.public-app .public-cta h2 { font-size: 17px; }
+.public-app .public-cta p { font-size: 13px; }
+
+/* topics */
+.home-topics { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.home-topic {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff;
+  border: 1px solid var(--line, #e2e4ef); border-radius: 12px; color: var(--ink-strong, #15173a);
+  transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+.home-topic:hover { border-color: #c4c2f4; box-shadow: var(--shadow-hover, 0 10px 28px #15173a17); transform: translateY(-2px); }
+.home-topic > span:nth-child(2) { flex: 1; min-width: 0; }
+.home-topic strong { display: block; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.home-topic small { display: block; font-size: 11.5px; color: var(--ink-faint, #7c819c); }
+.home-topic > svg { color: var(--ink-faint, #7c819c); }
+.home-topic-icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+.topic-tone-0 .home-topic-icon { background: #ecebfd; color: #2f2cb8; }
+.topic-tone-1 .home-topic-icon { background: #e0f2fe; color: #0369a1; }
+.topic-tone-2 .home-topic-icon { background: #ecfdf5; color: #047857; }
+.topic-tone-3 .home-topic-icon { background: #fff7e6; color: #b45309; }
+.topic-tone-4 .home-topic-icon { background: #fdf0f6; color: #be185d; }
+.topic-tone-5 .home-topic-icon { background: #f1f5f9; color: #334155; }
+
+/* section intro */
+.home-section-intro { text-align: center; margin-bottom: 18px; }
+.home-section-intro h2 { font-size: 19px; font-weight: 700; color: var(--ink-strong, #15173a); }
+
+/* steps */
+.home-steps { padding: 30px 24px; border-radius: 20px; background: linear-gradient(180deg, #f3f3fe, #fafbff); border: 1px solid #e7e7fa; }
+.home-steps ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: none; }
+.home-steps li { position: relative; padding: 18px; background: #fff; border: 1px solid var(--line, #e2e4ef); border-radius: 14px; }
+.home-steps h3 { margin: 12px 0 4px; font-size: 14px; }
+.home-steps p { font-size: 12.5px; color: var(--ink-muted, #5d6280); }
+.home-step-number { position: absolute; top: 14px; right: 16px; font-size: 26px; font-weight: 800; color: #e3e2fb; line-height: 1; }
+.home-step-icon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--brand-soft, #ecebfd); color: var(--brand, #2f2cb8); flex-shrink: 0; }
+
+/* contribute banner */
+.home-contribute {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 36px; padding: 20px 22px; border-radius: 16px;
+  background: linear-gradient(118deg, #ecebfd 0%, #f2f4ff 60%, #fdf6ec 100%); border: 1px solid #e1e0f6;
+}
+.home-contribute > div { flex: 1; min-width: 0; }
+.home-contribute h2 { font-size: 16px; }
+.home-contribute p { font-size: 12.5px; color: var(--ink-muted, #5d6280); }
+
+/* FAQ */
+.home-faq-list { max-width: 760px; margin: 0 auto; display: grid; gap: 10px; }
+.home-faq details { background: #fff; border: 1px solid var(--line, #e2e4ef); border-radius: 12px; padding: 0 16px; }
+.home-faq details[open] { border-color: #c4c2f4; }
+.home-faq summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0;
+  font-size: 13.5px; font-weight: 600; color: var(--ink-strong, #15173a); cursor: pointer; list-style: none;
+}
+.home-faq summary::-webkit-details-marker { display: none; }
+.home-faq summary svg { color: var(--brand, #2f2cb8); transition: transform .2s; flex-shrink: 0; }
+.home-faq details[open] summary svg { transform: rotate(45deg); }
+.home-faq details p { padding: 0 0 14px; font-size: 13px; color: var(--ink-muted, #5d6280); }
+
+/* ---------- Admin ---------- */
+.admin-sidebar { width: 228px; }
+.admin-workspace { margin-left: 228px; }
+.admin-sidebar nav a { min-height: 40px; padding: 8px 12px; font-size: 13px; }
+.admin-topbar { height: 62px; }
+.admin-content .page-heading h1 { font-size: 22px; }
+.admin-content th { font-size: 11px; }
+.admin-content td { font-size: 13px; }
+.admin-stat-card { padding: 16px; }
+.admin-stat-card strong { font-size: 21px; }
+
+@media (max-width: 1024px) {
+  .material-row > :nth-child(n+4) { display: none; }
+}
+@media (max-width: 860px) {
+  .home-steps ol { grid-template-columns: 1fr; }
+  .home-contribute { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 760px) {
+  .admin-workspace { margin-left: 0; }
+}
+@media (max-width: 640px) {
+  .home-welcome { padding: 26px 14px 30px; }
+  .home-steps { padding: 22px 14px; }
+  .home-topics { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .home-topic { padding: 10px; gap: 8px; }
+  .home-topic > svg { display: none; }
+  .home-topic-icon { width: 30px; height: 30px; }
+}
+
+/* ---------- Login / register inside the sidebar layout ---------- */
+.rail-login[aria-current=page] { background: var(--brand-soft, #ecebfd); color: var(--brand-strong, #1e1b8f); }
+.auth-in-rail { padding: 20px 0 8px; background: transparent; }
+.auth-in-rail .auth-home-link { display: none; }
+.auth-in-rail .auth-shell { min-height: auto; max-width: 1080px; margin: 0 auto; }
+.auth-in-rail .auth-story { min-height: 0; padding: 32px 36px; }
+.auth-in-rail .story-content { padding: 28px 0 12px; }
+.auth-in-rail .story-content h1 { font-size: clamp(24px, 2.6vw, 34px); }
+.auth-in-rail .story-illustration { height: 210px; }
+.auth-in-rail .auth-main { padding: 28px 32px 18px; }
+.auth-in-rail .auth-panel { padding: 20px 0; }
+.auth-in-rail .auth-tabs { margin-bottom: 26px; }
+@media (max-width: 860px) {
+  .auth-in-rail { padding-top: 12px; }
+  .auth-in-rail .auth-story { padding: 22px; }
+  .auth-in-rail .story-illustration { display: none; }
+  .auth-in-rail .auth-main { min-height: 0; padding: 18px; }
+}
+
+/* ---------- Photo covers: dark scrim at the bottom, white title ---------- */
+.document-cover:has(.document-cover-image) { background: #1f2937; }
+.document-cover:has(.document-cover-image):after {
+  inset: auto 0 0 0 !important; top: auto !important; height: 62% !important;
+  background: linear-gradient(0deg, #0b1020e6 0%, #0b102099 45%, transparent 100%) !important;
+}
+.document-cover-title {
+  top: auto !important; bottom: 14px; left: 16px; right: 72px !important; text-align: left !important;
+  color: #fff !important; text-transform: none !important; font-size: 14px !important; font-weight: 700 !important;
+  text-shadow: 0 1px 3px #0008;
+}
+.document-cover:has(.document-cover-image) .cover-format { color: #fff !important; background: #0b102080 !important; border-color: #ffffff59 !important; }
+
+/* Auto-dismissing status message on the home page */
+.notice.notice-toast { margin: 18px 0 0; padding: 10px 10px 10px 16px; animation: notice-in .25s ease-out; }
+.notice.notice-toast .icon-button { color: inherit; }
+.notice.notice-toast .icon-button:hover { background: #0000000f; }
+@keyframes notice-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .notice.notice-toast { animation: none; } }

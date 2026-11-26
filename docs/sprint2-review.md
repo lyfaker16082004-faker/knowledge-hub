@@ -1,5 +1,7 @@
 # Đối chiếu và nghiệm thu Sprint 2
 
+> **Ghi chú (24/11/2026):** dự án đã chuyển sang kiểm thử thủ công và gỡ bỏ toàn bộ test tự động (JUnit, Playwright). Số liệu test bên dưới là kết quả tại thời điểm nghiệm thu sprint này.
+
 Ngày: 05/11/2026. Nhánh triển khai: sprint-2.
 
 Kết luận: US2.1–US2.7 hoàn thành trong phạm vi đã đối chiếu.

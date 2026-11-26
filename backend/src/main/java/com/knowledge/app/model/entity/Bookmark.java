@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng bookmarks: bài viết mà người dùng đã lưu.
+ */
 @Entity
 @Table(name = "bookmarks", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "post_id"})})
 public class Bookmark extends BaseEntity {

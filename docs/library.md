@@ -4,7 +4,7 @@
 
 | Story | Chức năng | Màn hình |
 |---|---|---|
-| US2.1 | Upload PDF/PPT/PPTX/DOCX/MD/TXT tối đa 20 MiB; danh mục bắt buộc, tối đa 5 tags, chọn môn học; tự gắn trường/khoa từ hồ sơ | #upload |
+| US2.1 | Upload PDF/PPT/PPTX/DOCX/MD/TXT/ZIP/RAR tối đa 20 MiB; danh mục bắt buộc, tối đa 5 tags, chọn môn học; tự gắn trường/khoa từ hồ sơ | #upload |
 | US2.2 | Danh sách tài liệu đã đăng, xem chi tiết, sửa metadata và xóa mềm của chính tác giả | #my-documents |
 | US2.3 | Xem chi tiết, kiểm tra quyền FREE/PAID, tải file thật; mỗi lần backend cấp file thành công ghi một document_downloads | #document/{id}, #mine |
 | US2.4 | MySQL FULLTEXT trên title/summary/description, lọc môn học, trường/khoa, chủ đề, tag và FREE/PAID; sắp xếp và phân trang | #documents |
@@ -38,7 +38,7 @@ Các API ghi/quản lý dùng JWT Bearer. Response JSON bọc ApiResponse; file 
 | GET | /api/documents/{id} | Chi tiết; owner/admin có thêm status, reviewNote, version, canManage/canPreview |
 | POST | /api/documents/{id}/files/{fileId}/download | Tải tài liệu đã công bố và ghi lịch sử |
 | GET | /api/documents/{id}/files/{fileId}/preview | Owner/admin; file riêng tư phục vụ kiểm duyệt; không ghi lịch sử tải |
-| GET | /api/documents/{id}/files/{fileId}/preview-text | Owner/admin; trích văn bản PPTX/DOCX, không ghi lượt tải |
+| GET | /api/documents/{id}/files/{fileId}/preview-text | Owner/admin; trích văn bản PPTX/DOCX, liệt kê tệp trong ZIP, không ghi lượt tải |
 | GET | /api/users/me/documents | Danh sách tài liệu chính mình: q, status, page, size |
 | PUT | /api/users/me/documents/{id} | JSON version, metadata; kiểm tra tác giả, gửi duyệt lại |
 | DELETE | /api/users/me/documents/{id}?version=... | Tác giả xóa mềm |
@@ -74,10 +74,12 @@ ID chủ đề/môn học lấy từ API; không giả định ID mẫu luôn b�
 
 V10 thêm subjects, document_tags, subject_id/review_note/reviewed_at/reviewed_by_id và chỉ mục ft_documents_content. Tổng 26 bảng nghiệp vụ, 10 migration. V1–V9 giữ nguyên checksum. MySQL dùng MATCH AGAINST theo natural language; kết hợp LIKE đã escape cho từ ngắn/cụm tiếng Việt và tìm tên tag. H2 dùng LIKE để kiểm thử; có kiểm thử MySQL riêng chứng minh truy vấn full-text thật.
 
-File lưu ở backend/config/document-storage, tên UUID và đường dẫn private. Kiểm tra đuôi + nội dung: PDF signature, PPT compound document bằng Apache POI, PPTX/DOCX cấu trúc ZIP và giới hạn giải nén, MD/TXT UTF-8. Không chấp nhận macro Office đã nhận diện; giới hạn upload 20 MiB và tổng giải nén 100 MiB. Rollback sẽ dọn file mới. API tải kiểm tra file thuộc đúng document, tài khoản và quyền truy cập trước khi cấp bytes.
+File lưu ở backend/storage/documents (Git bỏ qua; đổi bằng APP_STORAGE_DIR), tên UUID và đường dẫn private. Kiểm tra đuôi + nội dung: PDF signature, PPT compound document bằng Apache POI, PPTX/DOCX cấu trúc ZIP và giới hạn giải nén, MD/TXT UTF-8. Không chấp nhận macro Office đã nhận diện; giới hạn upload 20 MiB và tổng giải nén 100 MiB. Rollback sẽ dọn file mới. API tải kiểm tra file thuộc đúng document, tài khoản và quyền truy cập trước khi cấp bytes.
+
+ZIP/RAR không bao giờ được giải nén trên server. ZIP được kiểm tra chữ ký, đọc bảng mục lục (tối đa 10.000 mục) và bị từ chối nếu chứa tệp thực thi (exe, msi, dll, scr, com, pif, vbs, lnk, cpl); mã nguồn như .js, .sh, .cmd vẫn được phép. RAR chỉ kiểm tra chữ ký RAR4/RAR5 vì Java không có sẵn trình đọc RAR. Bản xem thử của ZIP là danh sách tệp bên trong; RAR chỉ có thông báo hướng dẫn tải về.
 
 PDF xem trong iframe; TXT/MD hiển thị văn bản; PPTX/DOCX có bản trích văn bản để kiểm duyệt. Bản trích không tái hiện đầy đủ định dạng/hình ảnh, admin có thể tải bản gốc để xem bằng PowerPoint/Word hoặc phần mềm tương thích. PPT cũ dùng tải bản xem trước. Xem trước không được tính là lượt tải phục vụ AI. Bộ đọc XML tắt DTD/thực thể ngoài và giới hạn nội dung trích.
 
 Mỗi lần backend đọc/cấp file download thành công mới ghi lịch sử, không khẳng định người dùng đã lưu xong vào ổ đĩa. Lỗi quyền truy cập, sai file hoặc file thiếu không tạo bản ghi.
 
-Dữ liệu mẫu khởi đầu gồm 7 tài liệu Markdown của Knowledge Hub và 4 môn học. E2E tạo dữ liệu có tiền tố riêng; scripts/cleanup-e2e.ps1 dọn đúng manifest và không xóa tài khoản thật. Không bổ sung lại reports, moderation_actions hay audit_logs; ghi chú duyệt nằm trực tiếp trên documents.
+Dữ liệu mẫu khởi đầu gồm 7 tài liệu Markdown của Knowledge Hub và 4 môn học. Không bổ sung lại reports, moderation_actions hay audit_logs; ghi chú duyệt nằm trực tiếp trên documents.

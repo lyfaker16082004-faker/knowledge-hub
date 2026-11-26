@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng post_likes: lượt thích bài viết.
+ */
 @Entity
 @Table(name = "post_likes", uniqueConstraints = {@UniqueConstraint(columnNames = {"post_id", "user_id"})})
 public class PostLike extends BaseEntity {

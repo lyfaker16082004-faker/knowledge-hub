@@ -1,6 +1,9 @@
 package com.knowledge.app.model.dto.request.user;
 import java.util.Set;
 import jakarta.validation.constraints.*;
+/**
+ * Dữ liệu admin gửi lên khi sửa tài khoản (email, trạng thái, vai trò).
+ */
 public record AdminUpdateUserRequest(
  @NotBlank @Email @Size(max=254) String email,
  @NotBlank @Pattern(regexp="ACTIVE|INACTIVE|LOCKED|DELETED") String status,

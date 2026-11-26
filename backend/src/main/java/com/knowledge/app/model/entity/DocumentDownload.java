@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
+/**
+ * Bảng document_downloads: mỗi lần tải tài liệu thành công lưu một dòng (phục vụ AI gợi ý).
+ */
 @Entity
 @Table(name="document_downloads")
 public class DocumentDownload extends BaseEntity {

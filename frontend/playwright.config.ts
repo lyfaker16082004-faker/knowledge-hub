@@ -1,3 +1,0 @@
-process.env.E2E_RUN_ID ??= Date.now().toString(36);
-import { defineConfig } from '@playwright/test';
-export default defineConfig({ testDir: './e2e', workers: 1, timeout: 45000, use: { baseURL: process.env.E2E_BASE_URL || 'http://127.0.0.1:5173', viewport: { width: 1440, height: 1000 }, browserName: 'chromium', trace: 'retain-on-failure' } });

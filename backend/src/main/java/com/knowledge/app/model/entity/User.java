@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng users: tài khoản đăng nhập (email, mật khẩu đã mã hoá, trạng thái).
+ */
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {

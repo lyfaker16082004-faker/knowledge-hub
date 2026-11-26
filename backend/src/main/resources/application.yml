@@ -1,6 +1,10 @@
 spring:
   application:
     name: knowledge-hub
+  config:
+    # backend/config/ is read automatically when the app starts inside backend/;
+    # this also finds it when started from the repository root (IDE run button).
+    import: optional:file:./backend/config/
   profiles:
     default: dev
   servlet:
@@ -11,3 +15,7 @@ spring:
     open-in-view: false
 server:
   port: ${PORT:8080}
+app:
+  storage:
+    # Root folder for user data (documents/, avatars/). Empty = backend/storage
+    root: ${APP_STORAGE_DIR:}

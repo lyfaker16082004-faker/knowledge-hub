@@ -9,6 +9,8 @@ frontend/dist/
 .DS_Store
 # Local database credentials
 backend/config/
+# Local user data (uploaded documents, avatars, database backups)
+backend/storage/
 
 frontend/test-results/
 frontend/playwright-report/
@@ -24,3 +26,12 @@ frontend/playwright-report/
 *.iml
 .vs/
 Thumbs.db
+
+# Python cache (scripts/)
+__pycache__/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Gói dữ liệu chia sẻ cho team (gửi riêng, không đưa lên GitHub)
+team-data/

@@ -1,9 +1,13 @@
 package com.knowledge.app.model.entity;
 
 import com.knowledge.app.model.entity.base.BaseEntity;
+import com.knowledge.app.model.enums.PostType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng posts: bài viết trên bảng tin (câu hỏi hoặc chia sẻ kiến thức).
+ */
 @Entity
 @Table(name = "posts")
 public class Post extends BaseEntity {
@@ -28,6 +32,9 @@ public class Post extends BaseEntity {
 
     @Column(name = "visibility", nullable = false, length = 20)
     private String visibility;
+
+    @Column(name = "post_type", nullable = false, length = 20)
+    private String postType = PostType.QUESTION.name();
 
     @Column(name = "published_at", nullable = true)
     private LocalDateTime publishedAt;
@@ -55,6 +62,8 @@ public class Post extends BaseEntity {
     public void setStatus(String status) { this.status = status; }
     public String getVisibility() { return visibility; }
     public void setVisibility(String visibility) { this.visibility = visibility; }
+    public String getPostType() { return postType; }
+    public void setPostType(String postType) { this.postType = postType; }
     public LocalDateTime getPublishedAt() { return publishedAt; }
     public void setPublishedAt(LocalDateTime publishedAt) { this.publishedAt = publishedAt; }
 }

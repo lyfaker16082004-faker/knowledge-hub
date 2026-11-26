@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
+/**
+ * Bảng document_access: quyền tải tài liệu có phí mà admin cấp cho người dùng.
+ */
 @Entity
 @Table(name="document_access")
 public class DocumentAccess extends BaseEntity {

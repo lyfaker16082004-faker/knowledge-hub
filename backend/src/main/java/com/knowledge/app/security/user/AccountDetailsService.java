@@ -1,15 +1,54 @@
 package com.knowledge.app.security.user;
-import com.knowledge.app.repository.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.core.userdetails.*;
+
+import com.knowledge.app.model.entity.User;
+import com.knowledge.app.model.entity.UserRole;
+import com.knowledge.app.repository.UserRepository;
+import com.knowledge.app.repository.UserRoleRepository;
+
+/**
+ * Spring Security gọi class này để tìm người dùng khi đăng nhập.
+ */
 @Service
 public class AccountDetailsService implements UserDetailsService {
- private final UserRepository users; private final UserRoleRepository grants;
- public AccountDetailsService(UserRepository users, UserRoleRepository grants) { this.users=users; this.grants=grants; }
- @Override @Transactional(readOnly=true)
- public AccountPrincipal loadUserByUsername(String name) {
-  var user=(name.contains("@")?users.findByEmailIgnoreCase(name.trim()):users.findByUsernameIgnoreCase(name.trim())).orElseThrow(()->new UsernameNotFoundException("Không tìm thấy tài khoản"));
-  return new AccountPrincipal(user,grants.findWithRoles(user.getId()).stream().map(g->g.getRole().getName()).toList());
- }
+
+    private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
+
+    public AccountDetailsService(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+    }
+
+    /**
+     * Tìm người dùng theo email (nếu có "@") hoặc theo username.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public AccountPrincipal loadUserByUsername(String identity) {
+        String value = identity.trim();
+
+        User user;
+        if (identity.contains("@")) {
+            user = userRepository.findByEmailIgnoreCase(value)
+                    .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy tài khoản"));
+        } else {
+            user = userRepository.findByUsernameIgnoreCase(value)
+                    .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy tài khoản"));
+        }
+
+        List<String> roleNames = new ArrayList<>();
+        for (UserRole userRole : userRoleRepository.findWithRoles(user.getId())) {
+            roleNames.add(userRole.getRole().getName());
+        }
+
+        return new AccountPrincipal(user, roleNames);
+    }
 }

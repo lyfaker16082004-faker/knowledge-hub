@@ -20,7 +20,7 @@ Sprint 1 và Sprint 2 đã hoàn thiện. Luồng tạo/sửa bài hỏi đáp, 
 | Frontend | React 19, TypeScript, Vite; Node.js 22.12+ và npm |
 | Database | MySQL 8.0.16+, Flyway migrations |
 | Xác thực | JWT HS256, BCrypt, vai trò ADMIN / MODERATOR / USER |
-| Kiểm thử | JUnit, Spring Boot Test, H2, MySQL integration test, Playwright |
+| Kiểm thử | Kiểm thử thủ công trên giao diện (không dùng test tự động) |
 
 Dự án có Maven Wrapper, không cần cài Maven riêng. Lần chạy đầu cần Internet để tải dependencies. Chạy local không cần Docker hoặc Redis.
 
@@ -29,15 +29,15 @@ Dự án có Maven Wrapper, không cần cài Maven riêng. Lần chạy đầu 
 ```text
 knowledge-hub/
 ├── backend/                  # Spring Boot API và Maven Wrapper
+│   ├── config/               # (không commit) cấu hình local: mật khẩu DB, khóa JWT
+│   ├── storage/              # (không commit) dữ liệu: documents/, avatars/, backups/
 │   ├── src/main/java/        # Controller, service, repository, entity, security
 │   ├── src/main/resources/
 │   │   └── db/migration/     # Flyway V1–V10
-│   └── src/test/             # Kiểm thử backend
 ├── frontend/                 # React + TypeScript + Vite
-│   ├── src/                  # Giao diện người dùng và quản trị
-│   └── e2e/                  # Kiểm thử Playwright
+│   └── src/                  # Giao diện người dùng và quản trị
 ├── docs/                     # API, kiến trúc, schema và nghiệm thu
-├── scripts/                  # Khởi tạo admin và dọn dữ liệu thử
+├── scripts/                  # Khởi tạo admin, đặt lại tài khoản test
 ├── .env.example              # Danh sách biến môi trường tham khảo
 └── README.md
 ```
@@ -162,12 +162,12 @@ Xóa mềm chuyển tài khoản sang `DELETED`, giữ dữ liệu liên quan v�
 | `DB_USERNAME`, `DB_PASSWORD` | Thông tin tài khoản MySQL |
 | `PORT` | `8080` — cổng backend |
 | `APP_JWT_SECRET` | Khóa Base64 ít nhất 32 byte; bắt buộc với profile `prod` |
-| `APP_DOCUMENTS_STORAGE_DIR` | `./config/document-storage` — file upload riêng tư |
-| `APP_AVATARS_STORAGE_DIR` | `./config/avatar-storage` — ảnh đại diện đã xử lý |
+| `APP_STORAGE_DIR` | `backend/storage` — thư mục gốc chứa `documents/` (file upload riêng tư) và `avatars/` (ảnh đại diện) |
+| `APP_DOCUMENTS_STORAGE_DIR`, `APP_AVATARS_STORAGE_DIR` | Tùy chọn: đặt riêng từng thư mục, ghi đè `APP_STORAGE_DIR` |
 | `VITE_PROXY_TARGET` | `http://localhost:8080` — backend đích của proxy Vite khi phát triển |
 | `VITE_API_BASE_URL` | `/api` — địa chỉ API dùng khi build frontend |
 
-Đường dẫn lưu trữ mặc định được tính từ thư mục chạy backend. Avatar hỗ trợ PNG/JPEG nhỏ hơn 2 MiB. Tài liệu upload hỗ trợ PDF/PPT/PPTX/DOCX/MD/TXT tối đa 20 MB.
+Backend luôn dùng thư mục `backend/` làm gốc, dù chạy từ `backend/` (mvnw, task VS Code) hay từ thư mục gốc repository (nút Run của IDE); đường dẫn tương đối trong các biến trên cũng tính từ `backend/`. Khi khởi động, log in ra đường dẫn thực tế (`Document files: …`). Thư mục được tự tạo nếu chưa có; dữ liệu ở vị trí cũ `backend/config/document-storage` và `avatar-storage` được tự chuyển sang `backend/storage/`. Avatar hỗ trợ PNG/JPEG nhỏ hơn 2 MiB. Tài liệu upload hỗ trợ PDF/PPT/PPTX/DOCX/MD/TXT/ZIP/RAR tối đa 20 MB.
 
 JWT có thời hạn 24 giờ, frontend lưu trong `sessionStorage` của tab. Đổi mật khẩu, thay đổi tài khoản hoặc đăng xuất thu hồi token cũ. Trong `dev`, khóa JWT tự tạo tại `backend/config/jwt-secret.key`; giữ khóa này để token còn hiệu lực sau khởi động lại. Không đưa mật khẩu, khóa ký hoặc dữ liệu upload lên GitHub; cấu hình local nằm trong thư mục đã được bỏ qua.
 
@@ -189,33 +189,43 @@ Schema hiện có **26 bảng**, quản lý bằng **10 migration Flyway**. MySQ
 
 ## Kiểm thử
 
-### Backend
+Dự án kiểm thử **thủ công** trên giao diện, không dùng test tự động (JUnit / Playwright đã được gỡ bỏ).
+Trước khi nộp hoặc demo, nên đi qua các luồng chính:
 
-Từ thư mục `backend`:
+1. **Tài khoản:** đăng ký, đăng nhập, đổi ảnh đại diện, sửa hồ sơ, đổi mật khẩu.
+2. **Thư viện:** tìm kiếm + bộ lọc, mở chi tiết, xem thử (PDF, DOCX, PPTX, ZIP), lưu, tải về.
+3. **Đóng góp tài liệu:** thành viên đăng tài liệu → admin duyệt / từ chối → tài liệu hiện trong thư viện.
+4. **Cộng đồng:** đặt câu hỏi, trả lời lồng nhau, bình chọn, thích, lưu, theo dõi, chuông thông báo.
+5. **Quản trị:** người dùng, trường / khoa, kho tài liệu, cộng đồng & hỏi đáp (ẩn / khôi phục).
+
+Dữ liệu và tài khoản mẫu để thử: xem [docs/demo-accounts.md](docs/demo-accounts.md).
+
+### Tài khoản test
+
+Trên Windows, từ thư mục gốc:
 
 ```powershell
-# Windows: kiểm thử mặc định bằng H2
-.\mvnw.cmd test
-
-# Tùy chọn: kiểm thử thêm trên MySQL
-.\mvnw.cmd "-Dmysql.it=true" test
+.\scripts\reset-test-users.ps1
 ```
 
-Trên macOS/Linux, thay `.\mvnw.cmd` bằng `./mvnw`. Test mặc định không cần MySQL. Test MySQL yêu cầu kết nối đã cấu hình; test tài khoản/nghiệp vụ dùng database `knowledge_hub_account_test` riêng và cần quyền tạo database. Test schema sử dụng database `dev` đang cấu hình, các thay đổi thử được rollback; nên dùng môi trường phát triển dành riêng cho kiểm thử.
+Script sao lưu database local vào `backend/storage/backups/`. Sau đó nó xóa các tài khoản `e2e_*`, `codex_*`, `user1`, `user2`, `mod1` cùng tài liệu họ đã tải lên (cả dữ liệu lẫn file), rồi tạo lại ba tài khoản sau, mật khẩu chung `12345678`:
 
-### Frontend và trình duyệt
+| Tài khoản | Vai trò |
+|---|---|
+| `user1`, `user2` | Thành viên |
+| `mod1` | Thành viên + Kiểm duyệt viên |
+
+Tài khoản `admin` và mọi tài khoản khác giữ nguyên. Toàn bộ thay đổi chạy trong một transaction; nếu lỗi, database không bị đổi. Chỉ dùng cho môi trường phát triển.
+
+### Frontend
 
 Từ thư mục `frontend`:
 
 ```sh
 npm run build
-npx playwright install chromium
-npm run test:e2e
 ```
 
-E2E cần backend/frontend đang chạy và tài khoản ADMIN thử nghiệm. Các test hiện đọc file local `backend/config/initial-admin.json` dạng `{"username":"...","password":"..."}`; tự tạo file này với tài khoản của môi trường kiểm thử, không commit. Có thể để nội dung `{}` và đặt `E2E_ADMIN_USERNAME` / `E2E_ADMIN_PASSWORD` trong terminal chạy test. Script bootstrap không tự sinh file thông tin này.
-
-`E2E_BASE_URL` mặc định là `http://127.0.0.1:5173`. Test tạo tài khoản `e2e_*` với email `@example.test`; trên Windows có thể dọn các fixture theo manifest bằng `scripts/cleanup-e2e.ps1` từ thư mục gốc. Script dọn hiện kết nối MySQL local và đọc `backend/config/application-dev.properties`; kiểm tra cấu hình trước khi dùng với môi trường khác.
+Lệnh build chạy kiểm tra kiểu TypeScript (`tsc --noEmit`) trước khi đóng gói bằng Vite.
 
 ## Làm việc với VS Code
 

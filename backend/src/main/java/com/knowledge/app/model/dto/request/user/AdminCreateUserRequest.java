@@ -1,6 +1,9 @@
 package com.knowledge.app.model.dto.request.user;
 import java.util.Set;
 import jakarta.validation.constraints.*;
+/**
+ * Dữ liệu admin gửi lên khi tạo tài khoản mới.
+ */
 public record AdminCreateUserRequest(
  @NotBlank @Pattern(regexp="[a-zA-Z0-9_.-]{3,50}") String username,
  @NotBlank @Email @Size(max=254) String email,

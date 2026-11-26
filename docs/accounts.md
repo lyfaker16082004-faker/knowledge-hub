@@ -27,7 +27,7 @@ JWT ký HS256 bằng Spring Security Nimbus JOSE, kiểm chữ ký, exp/nbf, iss
 
 Backend stateless, không chấp nhận cookie làm chứng thực; CSRF tắt cho API Bearer. Frontend gửi token qua Authorization, lưu sessionStorage riêng từng tab; đăng nhập/register không gửi token cũ. Token không nằm trong URL. Cần HTTPS khi triển khai. Dev giữ khóa trong config/jwt-secret.key (ignored); prod bắt buộc đặt APP_JWT_SECRET Base64 tối thiểu 32 byte. Không commit khóa.
 
-Avatar được kiểm tra nội dung ImageIO, chỉ PNG/JPEG, chiều mỗi cạnh tối đa 4096 và tối đa 16 triệu pixel, chuyển PNG tối đa 512px và loại metadata. File lưu config/avatar-storage ngoài static; thay ảnh dọn ảnh cũ sau commit; rollback dọn ảnh mới. API chỉ cập nhật chính người đang đăng nhập.
+Avatar được kiểm tra nội dung ImageIO, chỉ PNG/JPEG, chiều mỗi cạnh tối đa 4096 và tối đa 16 triệu pixel, chuyển PNG tối đa 512px và loại metadata. File lưu ở backend/storage/avatars (ngoài static, Git bỏ qua); thay ảnh dọn ảnh cũ sau commit; rollback dọn ảnh mới. API chỉ cập nhật chính người đang đăng nhập.
 
 ## Cộng đồng và theo dõi
 

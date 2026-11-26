@@ -1,0 +1,111 @@
+/* Khu vực "Đọc thử tài liệu": khung xem riêng cho từng loại file */
+
+.pv { display: block; }
+.pv .pv-head h3 { margin: 0 0 4px; }
+
+/* ----- Danh sách tệp ----- */
+.pv-files { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 8px; }
+.pv-file {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  border: 1px solid #e4e6f0; border-radius: 12px; background: #fff;
+}
+.pv-file.is-open { border-color: #b9b7f0; background: #f6f6fe; }
+.pv-file-name { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pv-file-name strong { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-file-name small { color: #8a8fa8; font-size: 12px; }
+.pv-file-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* Nhãn loại file: mỗi loại một màu */
+.pv-badge {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  width: 46px; height: 46px; flex-shrink: 0; border-radius: 10px;
+  font-size: 10px; font-weight: 800; letter-spacing: .3px;
+  background: #eef0f6; color: #475569;
+}
+.pv-badge.k-pdf { background: #fdecec; color: #c02626; }
+.pv-badge.k-docx { background: #e8f0fe; color: #1d4ed8; }
+.pv-badge.k-pptx { background: #fff1e6; color: #c2410c; }
+.pv-badge.k-md { background: #ecebfd; color: #2f2cb8; }
+.pv-badge.k-txt { background: #f1f5f9; color: #475569; }
+.pv-badge.k-zip, .pv-badge.k-rar { background: #fef7e0; color: #a16207; }
+
+/* ----- Khung xem ----- */
+.pv-stage { margin-top: 16px; border: 1px solid #e4e6f0; border-radius: 14px; overflow: hidden; background: #f5f6fb; }
+.pv-stage-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 14px; background: #fff; border-bottom: 1px solid #e4e6f0;
+}
+.pv-stage-bar > span { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.pv-stage-bar strong { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-stage-bar em { font-style: normal; font-size: 11.5px; font-weight: 600; color: #2f2cb8; background: #ecebfd; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+
+.pv-summary {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 12px;
+  font-size: 13px; color: #5d6280;
+}
+.pv-cut {
+  display: flex; align-items: center; gap: 6px; margin: 14px 0 0; padding: 8px 12px;
+  border-radius: 8px; background: #ecebfd; color: #2f2cb8; font-size: 12.5px; font-weight: 600;
+}
+
+/* PDF */
+.pv-pdf iframe { display: block; width: 100%; height: min(78vh, 860px); border: 0; background: #525659; }
+
+/* Markdown, văn bản: trang giấy trắng */
+.pv-paper { margin: 16px; padding: 24px 28px; background: #fff; border-radius: 10px; box-shadow: 0 1px 3px #15173a14; max-height: 640px; overflow: auto; }
+.pv-plain { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, Consolas, monospace; font-size: 13px; line-height: 1.7; color: #2e3250; background: none; border: 0; padding: 0; }
+.pv-markdown { font-size: 14.5px; line-height: 1.75; }
+
+/* Word: trang giấy A4 thu nhỏ */
+.pv-word { padding: 20px; max-height: 680px; overflow: auto; }
+.pv-word-page {
+  max-width: 720px; margin: 0 auto; padding: 48px 56px; background: #fff;
+  box-shadow: 0 2px 10px #15173a1f; border-radius: 4px;
+  font-family: Cambria, 'Times New Roman', serif; color: #1f2233;
+}
+.pv-word-page p { margin: 0 0 10px; font-size: 15px; line-height: 1.7; text-align: justify; }
+.pv-word-page .pv-word-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 18px; }
+
+/* PowerPoint: lưới slide tỉ lệ 16:9 */
+.pv-slides { padding: 16px; }
+.pv-slide-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.pv-slide {
+  position: relative; aspect-ratio: 16 / 9; padding: 16px 16px 12px; overflow: hidden;
+  background: #fff; border: 1px solid #e4e6f0; border-radius: 10px; box-shadow: 0 1px 3px #15173a14;
+  display: flex; flex-direction: column;
+}
+.pv-slide h4 { margin: 0 0 6px; padding-right: 26px; font-size: 13.5px; line-height: 1.35; color: #15173a; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pv-slide ul { margin: 0; padding-left: 16px; font-size: 11.5px; line-height: 1.5; color: #5d6280; overflow: hidden; flex: 1; }
+.pv-slide li { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-slide small { font-size: 11px; color: #8a8fa8; }
+.pv-slide-number {
+  position: absolute; top: 10px; right: 10px; min-width: 22px; height: 22px; padding: 0 6px;
+  display: grid; place-items: center; border-radius: 999px; background: #fff1e6; color: #c2410c; font-size: 11px; font-weight: 700;
+}
+.pv-slide-empty { margin: auto; color: #8a8fa8; font-size: 12.5px; }
+
+/* Tệp nén: cây thư mục */
+.pv-archive { padding: 16px; }
+.pv-tree { list-style: none; margin: 0; padding: 6px 0; max-height: 520px; overflow: auto; background: #fff; border: 1px solid #e4e6f0; border-radius: 10px; }
+.pv-tree li { display: flex; align-items: center; gap: 8px; padding-top: 5px; padding-bottom: 5px; padding-right: 12px; font-size: 13px; color: #2e3250; }
+.pv-tree li:hover { background: #f6f6fe; }
+.pv-tree li span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-tree li small { color: #8a8fa8; font-size: 12px; white-space: nowrap; }
+.pv-tree-folder { font-weight: 600; }
+.pv-tree-folder svg { color: #a16207; }
+.pv-tree-file svg { color: #8a8fa8; }
+
+@media (max-width: 640px) {
+  .pv-file { flex-wrap: wrap; }
+  .pv-file-actions { width: 100%; }
+  .pv-file-actions .button { flex: 1; }
+  .pv-word-page { padding: 24px 20px; }
+  .pv-paper { margin: 10px; padding: 16px; }
+  .pv-pdf iframe { height: 70vh; }
+}
+
+/* Ghi đè các style cũ của .document-preview (độ ưu tiên cao hơn) */
+.document-preview.pv { display: block; }
+.document-preview.pv iframe { height: min(78vh, 860px); margin: 0; border: 0; border-radius: 0; background: #525659; }
+.document-preview.pv pre.pv-plain { max-height: none; overflow: visible; padding: 0; border: 0; border-radius: 0; background: none; font: 13px/1.7 ui-monospace, Consolas, monospace; }
+.dd-main > .document-preview.pv .pv-file-actions .button { white-space: nowrap; text-align: center; max-width: none; }

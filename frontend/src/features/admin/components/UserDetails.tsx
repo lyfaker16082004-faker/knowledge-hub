@@ -1,5 +1,141 @@
-import {useEffect,useRef,useState} from 'react';
-import {get,mutate,errorMessage} from '../../../shared/api/http-client';
-import type {Account} from '../../auth/types';
-import {dateLabel,roleNames,statusNames} from '../../auth/types';
-export default function UserDetails({id,mode,onClose,onSaved}:{id:number;mode:'detail'|'delete';onClose:()=>void;onSaved:(message:string)=>Promise<void>}){const dialog=useRef<HTMLDialogElement>(null);const [user,setUser]=useState<Account|null>(null);const [error,setError]=useState('');const [busy,setBusy]=useState(false);useEffect(()=>{dialog.current?.showModal();const controller=new AbortController();get<Account>(`/admin/users/${id}`,controller.signal).then(setUser).catch(e=>{if(!controller.signal.aborted)setError(errorMessage(e));});return()=>controller.abort();},[id]);async function remove(){setBusy(true);setError('');try{await mutate(`/admin/users/${id}`,'DELETE');await onSaved('Đã xóa mềm tài khoản. Người dùng không thể đăng nhập; dữ liệu được giữ lại.');onClose();}catch(e){setError(errorMessage(e));}finally{setBusy(false);}}return <dialog className="sprint-dialog" ref={dialog} aria-labelledby="user-details-title" onCancel={e=>{e.preventDefault();if(!busy)onClose();}}><h2 id="user-details-title">{mode==='delete'?'Xóa mềm tài khoản':'Chi tiết người dùng'}</h2>{error&&<div className="alert" role="alert">{error}</div>}{user?<><div className="identity-card"><span className="avatar large">{user.avatarUrl?<img src={user.avatarUrl} alt=""/>:user.username.slice(0,2).toUpperCase()}</span><div><h3>{user.displayName||user.username}</h3><p className="muted">@{user.username} · #{user.id}</p></div></div>{mode==='detail'?<><dl className="detail-list"><div><dt>Email</dt><dd>{user.email}</dd></div><div><dt>Trạng thái</dt><dd>{statusNames[user.status]}</dd></div><div><dt>Vai trò</dt><dd>{user.roles.map(r=>roleNames[r]||r).join(', ')}</dd></div><div><dt>Trường / Tổ chức</dt><dd>{user.organization?.institutionName||'Chưa chọn'}</dd></div><div><dt>Khoa / Chuyên ngành</dt><dd>{user.organization?.facultyName||'Chưa chọn'}</dd></div><div><dt>Ngày tham gia</dt><dd>{dateLabel(user.createdAt)}</dd></div><div><dt>Đăng nhập gần nhất</dt><dd>{dateLabel(user.lastLoginAt)}</dd></div></dl><h3>Giới thiệu</h3><p className="preserve-lines">{user.bio||'Chưa có giới thiệu.'}</p></>:<p>Tài khoản <strong>{user.username}</strong> sẽ chuyển sang Đã xóa mềm và bị thu hồi đăng nhập. Hồ sơ, tài liệu và lịch sử được giữ lại. Bạn có thể khôi phục bằng cách sửa trạng thái thành Hoạt động.</p>}</>:!error&&<p role="status">Đang tải thông tin…</p>}<div className="dialog-actions"><button className="button secondary" disabled={busy} onClick={onClose}>{mode==='delete'?'Hủy':'Đóng'}</button>{mode==='delete'&&<button className="button danger" disabled={busy||!user||user.status==='DELETED'} onClick={remove}>{busy?'Đang xử lý…':'Xác nhận xóa mềm'}</button>}</div></dialog>;}
+import { useEffect, useState } from "react";
+import { get, mutate, errorMessage } from "../../../shared/api/http-client";
+import type { Account } from "../../auth/types";
+import { dateLabel, roleNames, statusNames } from "../../auth/types";
+import Icon from "../../../shared/components/ui/Icon";
+import { AdminDialog, Avatar, LoadingRows, Notice } from "./AdminUI";
+
+/* Hộp thoại xem chi tiết tài khoản, cũng dùng để xác nhận xoá mềm. */
+
+export default function UserDetails({
+  id,
+  mode,
+  onClose,
+  onSaved,
+}: {
+  id: number;
+  mode: "detail" | "delete";
+  onClose: () => void;
+  onSaved: (message: string) => Promise<void>;
+}) {
+  const [user, setUser] = useState<Account | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    get<Account>(`/admin/users/${id}`, controller.signal)
+      .then(setUser)
+      .catch((e) => {
+        if (!controller.signal.aborted) setError(errorMessage(e));
+      });
+    return () => controller.abort();
+  }, [id]);
+  /** Xoá mềm tài khoản (giữ dữ liệu, chỉ đổi trạng thái thành DELETED). */
+  async function remove() {
+    setBusy(true);
+    setError("");
+    try {
+      await mutate(`/admin/users/${id}`, "DELETE");
+      await onSaved(
+        "Đã xóa mềm tài khoản. Người dùng không thể đăng nhập; dữ liệu được giữ lại.",
+      );
+      onClose();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  const footer = (
+    <>
+      <button className="button secondary" disabled={busy} onClick={onClose}>
+        {mode === "delete" ? "Hủy" : "Đóng"}
+      </button>
+      {mode === "delete" && (
+        <button
+          className="button danger"
+          disabled={busy || !user || user.status === "DELETED"}
+          onClick={remove}
+        >
+          <Icon name="trash" size={15} />
+          {busy ? "Đang xử lý…" : "Xác nhận xóa mềm"}
+        </button>
+      )}
+    </>
+  );
+  return (
+    <AdminDialog
+      title={mode === "delete" ? "Xóa mềm tài khoản" : "Chi tiết người dùng"}
+      onClose={onClose}
+      busy={busy}
+      footer={footer}
+    >
+      {error && <Notice tone="error">{error}</Notice>}
+      {!user ? (
+        !error && <LoadingRows rows={4} />
+      ) : (
+        <>
+          <div className="adm-identity">
+            <Avatar name={user.username} url={user.avatarUrl} size="lg" />
+            <div>
+              <h3>{user.displayName || user.username}</h3>
+              <p>
+                @{user.username} · ID #{user.id}
+              </p>
+              <div className="adm-badges">
+                <span className={`adm-status ${user.status.toLowerCase()}`}>
+                  {statusNames[user.status]}
+                </span>
+                {user.roles.map((r) => (
+                  <span key={r} className={`adm-role ${r.toLowerCase()}`}>
+                    {roleNames[r] || r}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          {mode === "detail" ? (
+            <>
+              <dl className="adm-dl">
+                <div>
+                  <dt>Email</dt>
+                  <dd>{user.email}</dd>
+                </div>
+                <div>
+                  <dt>Trường / Tổ chức</dt>
+                  <dd>{user.organization?.institutionName || "Chưa chọn"}</dd>
+                </div>
+                <div>
+                  <dt>Khoa / Chuyên ngành</dt>
+                  <dd>{user.organization?.facultyName || "Chưa chọn"}</dd>
+                </div>
+                <div>
+                  <dt>Ngày tham gia</dt>
+                  <dd>{dateLabel(user.createdAt)}</dd>
+                </div>
+                <div>
+                  <dt>Đăng nhập gần nhất</dt>
+                  <dd>{dateLabel(user.lastLoginAt)}</dd>
+                </div>
+              </dl>
+              <h4 className="adm-subtitle">Giới thiệu</h4>
+              <p className="adm-bio preserve-lines">
+                {user.bio || "Chưa có giới thiệu."}
+              </p>
+            </>
+          ) : (
+            <div className="adm-warning">
+              <Icon name="shield" size={18} />
+              <p>
+                Tài khoản <strong>{user.username}</strong> sẽ chuyển sang{" "}
+                <strong>Đã xóa mềm</strong> và bị thu hồi đăng nhập. Hồ sơ, tài
+                liệu và lịch sử được giữ lại — có thể khôi phục bằng cách sửa
+                trạng thái thành Hoạt động.
+              </p>
+            </div>
+          )}
+        </>
+      )}
+    </AdminDialog>
+  );
+}

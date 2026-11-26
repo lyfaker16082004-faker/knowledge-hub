@@ -1,0 +1,243 @@
+/*
+ * Final UI layer — loaded last (see main.tsx).
+ * One brand colour, one surface/input style and one type scale for the
+ * user app (.public-app), auth pages (.auth-route) and admin (.admin-shell).
+ * To re-brand, change the --brand* tokens below.
+ */
+:root {
+  --brand: #2f2cb8;
+  --brand-strong: #1e1b8f;
+  --brand-soft: #ecebfd;
+  --brand-softer: #f5f5fe;
+  --brand-ring: #2f2cb833;
+  --ink-strong: #15173a;
+  --ink-body: #2e3250;
+  --ink-muted: #5d6280;
+  --ink-faint: #7c819c;
+  --line: #e2e4ef;
+  --line-strong: #cfd2e3;
+  --surface: #ffffff;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px #15173a0a, 0 4px 14px #15173a0a;
+  --shadow-hover: 0 10px 28px #15173a17;
+}
+
+/* ---------- Shared text colour & rhythm ---------- */
+.public-app, .auth-route, .admin-shell { --primary: var(--brand); --primary-dark: var(--brand-strong); --primary-light: var(--brand-soft); --ink: var(--ink-strong); --muted: var(--ink-muted); --border: var(--line); --surface: #fff; }
+.public-app h1, .public-app h2, .public-app h3, .auth-route h1, .auth-route h2, .auth-route h3 { color: var(--ink-strong); }
+.public-app p, .public-app .muted, .auth-route .muted { color: var(--ink-muted); }
+.public-app .section-kicker, .public-app .hero-eyebrow, .public-app .download-label,
+.auth-route .section-kicker, .admin-shell .section-kicker { color: var(--brand); font-size: 11.5px; letter-spacing: .12em; }
+.public-app .subtle-link, .public-app .back-link, .public-app .text-button, .public-app .brand-dot,
+.admin-shell .text-button { color: var(--brand); }
+.public-app ::selection { background: var(--brand-soft); }
+
+/* ---------- Buttons ---------- */
+.public-app .button, .auth-route .button, .admin-shell .button { border-radius: var(--radius-control); font-weight: 600; transition: background .15s, border-color .15s, box-shadow .15s, color .15s; }
+.public-app .button.primary, .auth-route .button.primary, .admin-shell .button.primary {
+  background: var(--brand); color: #fff; border-color: transparent; box-shadow: 0 4px 12px #2f2cb82e;
+}
+.public-app .button.primary:hover:not(:disabled), .auth-route .button.primary:hover:not(:disabled), .admin-shell .button.primary:hover:not(:disabled) {
+  background: var(--brand-strong); transform: none; box-shadow: 0 6px 16px #1e1b8f38;
+}
+.public-app .button.secondary, .auth-route .button.secondary, .admin-shell .button.secondary {
+  background: #fff; border-color: var(--line-strong); color: var(--ink-body); box-shadow: none;
+}
+.public-app .button.secondary:hover:not(:disabled), .auth-route .button.secondary:hover:not(:disabled), .admin-shell .button.secondary:hover:not(:disabled) {
+  background: var(--brand-softer); border-color: #a9a7ee; color: var(--brand-strong); transform: none;
+}
+.public-app .button:active:not(:disabled), .auth-route .button:active:not(:disabled), .admin-shell .button:active:not(:disabled) { transform: translateY(1px); }
+.public-app .button:disabled, .auth-route .button:disabled, .admin-shell .button:disabled { opacity: .5; box-shadow: none; }
+.public-app .button.compact, .admin-shell .button.compact { min-height: 36px; padding: 7px 13px; font-size: 13px; }
+:where(.public-app, .auth-route, .admin-shell) :is(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid var(--brand-ring); outline-offset: 2px; }
+
+/* ---------- Form controls ---------- */
+.public-app input:not([type=checkbox]):not([type=radio]):not([type=file]),
+.public-app select, .public-app textarea,
+.auth-route input:not([type=checkbox]):not([type=radio]), .auth-route select,
+.admin-shell input:not([type=checkbox]):not([type=radio]):not([type=file]), .admin-shell select, .admin-shell textarea {
+  background: #fff; border: 1px solid var(--line-strong); border-radius: var(--radius-control); color: var(--ink-strong); font-size: 14px;
+}
+.public-app select, .auth-route select, .admin-shell select { height: 44px; padding-top: 0; padding-bottom: 0; }
+.public-app input::placeholder, .public-app textarea::placeholder, .auth-route input::placeholder, .admin-shell input::placeholder { color: var(--ink-faint); opacity: 1; }
+.public-app input:not([type=checkbox]):not([type=radio]):hover, .public-app select:hover, .public-app textarea:hover,
+.auth-route input:not([type=checkbox]):not([type=radio]):hover, .admin-shell input:not([type=checkbox]):not([type=radio]):hover, .admin-shell select:hover { border-color: #b4b7cf; }
+.public-app input:focus, .public-app select:focus, .public-app textarea:focus,
+.auth-route input:focus, .auth-route select:focus,
+.admin-shell input:focus, .admin-shell select:focus, .admin-shell textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-ring); outline: none; }
+.public-app input[type=checkbox], .public-app input[type=radio], .auth-route input[type=checkbox], .admin-shell input[type=checkbox] { accent-color: var(--brand); }
+.public-app .field > label, .public-app .field-label, .admin-shell .field > label { color: var(--ink-body); font-weight: 600; font-size: 13.5px; }
+/* Native file inputs: give the picker button the secondary-button look */
+.public-app input[type=file], .admin-shell input[type=file] { font-size: 13.5px; color: var(--ink-muted); }
+.public-app input[type=file]::file-selector-button, .admin-shell input[type=file]::file-selector-button {
+  margin-right: 12px; padding: 8px 14px; border: 1px solid var(--line-strong); border-radius: 8px; background: #fff; color: var(--ink-body); font: inherit; font-weight: 600; cursor: pointer;
+}
+.public-app input[type=file]::file-selector-button:hover { background: var(--brand-softer); border-color: #a9a7ee; color: var(--brand-strong); }
+
+/* ---------- Surfaces ---------- */
+.public-app .panel, .public-app .document-card, .public-app .filter-panel, .public-app .personal-library,
+.public-app .member-card, .public-app .personal-stats > div, .public-app .upload-card, .public-app .side-card {
+  background: #fff; border-color: var(--line);
+}
+.public-app .document-card { border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.public-app .document-card:hover { border-color: #c4c2f4; box-shadow: var(--shadow-hover); }
+.public-app .document-card-link:hover h3 { color: var(--brand); }
+.public-app .card-bottom > span, .public-app .card-bottom a { color: var(--brand); }
+.public-app .notice { background: #eaf7f0; border: 1px solid #c4e8d4; color: #1d5e40; }
+
+/* ---------- Status badges: legible text sizes ---------- */
+.public-app .access-badge, .public-app .level-tag, .public-app .category-label { font-size: 12px; }
+.public-app .category-label { color: var(--brand); font-weight: 600; }
+
+/* ---------- Rail shell ---------- */
+.public-app.rail-app { background: #eceef8; }
+.rail-content { background: #fafbff; }
+.rail-nav > a { color: #3d4160; font-size: 12.5px; }
+.rail-nav > a[aria-current=page] { background: var(--brand-soft); color: var(--brand-strong); }
+.rail-nav > a[aria-current=page] svg { fill: none; }
+.rail-footer { color: var(--ink-faint); }
+
+/* ---------- Home ---------- */
+.home-welcome { background: linear-gradient(180deg, #e3e2fb 0%, #eeeefc 60%, #f8f8fe 100%); }
+.home-welcome h1 { color: var(--ink-strong); }
+.home-welcome > p { color: var(--ink-muted); }
+/* the search pill owns the border — the input inside must be borderless */
+.public-app .home-search label { background: #fff; border-color: var(--line-strong); box-shadow: 0 6px 20px #1e1b8f12; }
+.public-app .home-search label:focus-within { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-ring); }
+.public-app .home-search input:not([type=checkbox]):not([type=radio]):not([type=file]) { flex: 1; min-width: 0; height: 100%; border: 0; border-radius: 0; background: transparent; padding: 0; box-shadow: none; font-size: 15px; }
+.public-app .home-search input:focus { box-shadow: none; }
+.home-search button { background: var(--brand); }
+.home-search button:hover { background: var(--brand-strong); }
+.home-stats { gap: 16px; margin: 28px 0 40px; }
+.home-stat-card { display: flex; align-items: flex-start; gap: 14px; text-align: left; padding: 18px; border-radius: 14px; border-color: var(--line); box-shadow: var(--shadow-card); }
+.home-stat-icon { width: 44px; height: 44px; border-radius: 12px; border: 0; background: var(--brand-soft); color: var(--brand); }
+.home-stat-body { min-width: 0; }
+.home-stat-body strong { display: block; font-size: 26px; line-height: 1.1; font-weight: 700; color: var(--ink-strong); }
+.home-stat-body span { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 600; color: var(--ink-body); }
+.home-stat-body p { margin: 6px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-muted); }
+.home-row-head h2 { color: var(--ink-strong); font-weight: 700; }
+.home-view-all { border-color: var(--line-strong); color: var(--ink-body); font-size: 14px; padding: 8px 16px; font-weight: 600; }
+.home-view-all:hover { background: var(--brand); border-color: var(--brand); }
+.home-sort-button { font-size: 13px; color: var(--ink-body); }
+.material-card h3 { font-weight: 600; color: var(--ink-strong); }
+.material-card p { font-size: 12.5px; color: var(--ink-faint); }
+.material-card:hover h3 { color: var(--brand); }
+.public-app .public-cta { background: linear-gradient(120deg, var(--brand-strong), #3d39c9); }
+.public-app .public-cta h2 { color: #fff; }
+.public-app .public-cta p { color: #d9d8ff; }
+.public-app .public-cta .button.primary { background: #fff; color: var(--brand-strong); }
+.public-app .public-cta .button.primary:hover:not(:disabled) { background: var(--brand-soft); }
+.home-view-all, .home-row-head h2 { white-space: nowrap; }
+.public-app .filter-note { background: var(--brand-softer); border-color: #e1e0f6; color: var(--brand); }
+.public-app .filter-note strong { color: var(--ink-strong); font-size: 13px; }
+.public-app .filter-note p { color: var(--ink-muted); font-size: 12.5px; }
+@media (max-width: 640px) {
+  .home-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .home-stat-card { flex-direction: column; gap: 10px; padding: 14px; }
+  .home-stat-icon { width: 36px; height: 36px; border-radius: 10px; }
+  .home-stat-body strong { font-size: 22px; }
+  .home-stat-body p { display: none; }
+}
+
+/* ---------- Library / catalogue ---------- */
+.public-app .catalogue-heading { background: linear-gradient(118deg, #ecebfd 0%, #f2f4ff 60%, #fdf6ec 100%); border-color: #e1e0f6; }
+.public-app .catalogue-search label { background: #fff; border-color: var(--line-strong); }
+.public-app .filter-panel select, .public-app .filter-panel input:not([type=radio]):not([type=checkbox]) { height: 42px; font-size: 14px; }
+.public-app .filter-panel .field { margin: 0 0 14px; }
+.public-app .filter-group label { font-size: 13.5px; color: var(--ink-body); }
+.public-app .filter-group h3, .public-app .filter-group > label[for] { font-size: 13.5px; font-weight: 600; color: var(--ink-strong); }
+.public-app .filter-group label small { font-size: 12px; color: var(--ink-faint); }
+.public-app .scope-note { font-size: 13px; color: var(--ink-muted); }
+.public-app .catalogue-toolbar label, .public-app .catalogue-toolbar p { font-size: 13.5px; }
+.public-app .catalogue-toolbar select { width: auto; min-width: 150px; height: 38px; font-size: 13.5px; padding: 0 34px 0 12px; }
+.public-app .catalogue-results .card-meta, .public-app .card-meta { font-size: 12px; color: var(--ink-faint); }
+.public-app .catalogue-results .document-card-body > p { font-size: 13px; color: var(--ink-muted); }
+.filter-toggle { display: none; }
+@media (max-width: 860px) {
+  .filter-toggle { display: flex; width: 100%; justify-content: space-between; margin-bottom: 14px; }
+  .filter-toggle .filter-count { margin-left: auto; margin-right: 8px; min-width: 22px; height: 22px; padding: 0 7px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 12px; display: grid; place-items: center; }
+  .public-app .filter-panel:not(.is-open) { display: none; }
+}
+
+/* ---------- Pagination ---------- */
+.public-app .library-pagination, .public-app .community-pagination { font-size: 13px; color: var(--ink-muted); }
+.public-app .library-pagination .button { font-size: 13px; }
+
+/* ---------- Document detail ---------- */
+.public-app .detail-breadcrumb, .public-app .detail-facts { font-size: 13px; color: var(--ink-muted); }
+.public-app .detail-author > div > span, .public-app .file-row small { font-size: 12.5px; color: var(--ink-faint); }
+.public-app .free-price, .public-app .download-card .free-price { color: #18704d; }
+.public-app .download-assurance { font-size: 12px; color: var(--ink-faint); }
+
+/* ---------- Personal library ---------- */
+.public-app .my-library-banner { background: linear-gradient(118deg, #ecebfd 0%, #f2f4ff 60%, #fdf6ec 100%); border-color: #e1e0f6; }
+.public-app .my-library-banner .avatar { overflow: hidden; }
+.public-app .my-library-banner .avatar img { width: 100%; height: 100%; object-fit: cover; }
+.public-app .library-tabs { align-items: center; }
+.public-app .library-tabs > a { font-size: 13px; }
+.public-app .library-tabs > a { margin-left: 0; color: var(--ink-muted); }
+.public-app .library-tabs > a:hover { color: var(--brand); }
+.public-app .library-tabs > .my-contributions-link { margin-left: auto; }
+.public-app .library-tabs > button { color: var(--ink-muted); font-size: 13.5px; }
+.public-app .library-tabs > button[aria-selected=true] { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+.public-app .personal-stats .tile-icon, .public-app .tile-icon.purple { background: var(--brand-soft); color: var(--brand); }
+.public-app .personal-stats > div > div > span { font-size: 13px; color: var(--ink-muted); }
+
+/* ---------- Community ---------- */
+.public-app .community-tabs { display: inline-flex; gap: 4px; padding: 4px; border-radius: 12px; background: #eef0f8; margin: 6px 0 18px; flex-wrap: wrap; }
+.public-app .community-tabs .button { min-height: 36px; padding: 7px 14px; font-size: 13.5px; box-shadow: none; border-color: transparent; }
+.public-app .community-tabs .button.secondary { background: transparent; color: var(--ink-muted); }
+.public-app .community-tabs .button.secondary:hover:not(:disabled) { background: #fff; border-color: transparent; }
+.public-app .community-tabs .button.primary { background: #fff; color: var(--brand-strong); box-shadow: 0 1px 4px #15173a1a; }
+.public-app .community-search { margin: 4px 0 22px; max-width: 640px; }
+.public-app .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.public-app .member-card { display: flex; flex-direction: column; gap: 6px; padding: 22px; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.public-app .member-card > a { display: flex; align-items: center; gap: 14px; }
+.public-app .member-card > a h2 { font-size: 17px; font-weight: 700; }
+.public-app .member-card > a:hover h2 { color: var(--brand); }
+.public-app .member-card .muted { margin: 0; font-size: 13px; }
+.public-app .member-card .member-bio { font-size: 14px; color: var(--ink-body); line-height: 1.6; flex: 1; }
+.public-app .member-card small { font-size: 12.5px; color: var(--ink-faint); }
+.public-app .member-card > p:not(.muted):not(.member-bio) { font-size: 13px; color: var(--ink-muted); margin: 0 0 6px; }
+.public-app .member-card .button { align-self: flex-start; min-height: 38px; padding: 8px 16px; font-size: 13.5px; }
+.public-app .avatar.large { background: var(--brand-soft); color: var(--brand-strong); }
+
+/* ---------- Account ---------- */
+.public-app .avatar-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 18px 0 8px; font-weight: 600; color: var(--ink-strong); }
+.public-app .avatar-upload input[type=file] { flex-basis: 100%; height: auto; padding: 8px; border: 1px dashed var(--line-strong); border-radius: var(--radius-control); background: var(--brand-softer); }
+.public-app .avatar-upload small { flex-basis: 100%; font-weight: 400; color: var(--ink-faint); }
+.public-app .detail-list dt { color: var(--ink-muted); font-size: 13px; }
+.public-app .detail-list dd { color: var(--ink-strong); font-size: 13.5px; }
+
+/* ---------- Auth ---------- */
+.auth-route .auth-story { background: linear-gradient(150deg, #2f2cb8 0%, #1e1b8f 55%, #15136a 100%); }
+.auth-route .auth-story h1 em { color: #b9b6ff; }
+.auth-route .auth-story:before { background: #ffffff12; }
+.auth-route .illustration-center { background: #ffffff1f; color: #fff; }
+.auth-route .story-kicker { color: #c8c6ff; }
+.auth-route .float-card { background: #ffffffeb; color: var(--ink-strong); }
+.auth-route .float-card small { color: var(--ink-muted); font-size: 12px; }
+.auth-route .auth-story .brand-symbol { background: #ffffff26; box-shadow: none; }
+.auth-route .auth-tabs button.active, .auth-route .auth-tabs button[aria-selected=true] { background: #fff; color: var(--brand); }
+.auth-route .safe-note, .auth-route .auth-footer { font-size: 12.5px; color: var(--ink-faint); }
+.auth-route .auth-home-link { color: var(--ink-muted); border-color: var(--line); font-weight: 500; }
+.auth-route .auth-home-link:hover { color: var(--brand); border-color: #c4c2f4; }
+@media (min-width: 861px) { .auth-route .auth-home-link { left: calc(50% + 24px); top: 24px; transform: none; } }
+
+/* ---------- Admin ---------- */
+.admin-shell .admin-sidebar nav a[aria-current=page] { background: #ffffff14; box-shadow: inset 3px 0 0 #8f8cff; }
+.admin-shell .brand-symbol { background: var(--brand); }
+.admin-shell th { font-size: 12px; letter-spacing: .06em; color: var(--ink-faint); }
+.admin-shell td { color: var(--ink-body); }
+.admin-shell .row-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 2px; }
+.admin-shell .row-actions .text-button { font-size: 13px; padding: 6px 8px; border-radius: 8px; white-space: nowrap; }
+.admin-shell .row-actions .text-button:hover:not(:disabled) { background: var(--brand-softer); }
+.admin-shell .row-actions .text-button.danger:hover:not(:disabled), .admin-shell .row-actions .danger:hover:not(:disabled) { background: #fff0f1; }
+.admin-shell .pagination, .admin-shell .table-toolbar p, .admin-shell .date-cell { font-size: 13px; }
+.admin-shell .status, .admin-shell .role-badge { font-size: 12px; }
+
+/* ---------- Motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .public-app *, .auth-route *, .admin-shell * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

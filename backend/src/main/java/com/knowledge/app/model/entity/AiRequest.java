@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng ai_requests: lưu các yêu cầu gửi tới dịch vụ AI.
+ */
 @Entity
 @Table(name = "ai_requests")
 public class AiRequest extends BaseEntity {

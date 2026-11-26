@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng post_views: lượt xem bài viết.
+ */
 @Entity
 @Table(name = "post_views")
 public class PostView extends BaseEntity {

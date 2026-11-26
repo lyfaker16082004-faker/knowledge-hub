@@ -47,7 +47,7 @@ Lọc tổ chức là công cụ khám phá, không phải rào cản truy cập
 - Posts có trường dữ liệu tổ chức; feed đọc bài đã xuất bản từ người đang theo dõi đã có từ Sprint 1.
 
 ## Upload và lưu trữ
-Form hỗ trợ PDF, PPT/PPTX, DOCX, Markdown, TXT tối đa 20 MB. File được lưu riêng tư tại backend/config/document-storage, được Git bỏ qua; có thể cấu hình app.documents.storage-dir (biến môi trường APP_DOCUMENTS_STORAGE_DIR).
+Form hỗ trợ PDF, PPT/PPTX, DOCX, Markdown, TXT, ZIP, RAR tối đa 20 MB. File được lưu riêng tư tại backend/storage/documents, được Git bỏ qua; có thể cấu hình app.documents.storage-dir (biến môi trường APP_DOCUMENTS_STORAGE_DIR).
 
 Backend xác thực metadata, tổ hợp trường/khoa, giá FREE=0 / PAID>0 và định dạng tệp; PDF kiểm tra signature, DOCX kiểm tra cấu trúc ZIP/Word cùng giới hạn giải nén, file văn bản cần UTF-8. Tên lưu vật lý dùng UUID, không dùng đường dẫn do client cung cấp. File được dọn nếu transaction thất bại. Download vẫn qua endpoint kiểm tra quyền, không có URL static trực tiếp.
 

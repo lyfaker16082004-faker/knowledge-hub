@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng user_follows: ai đang theo dõi ai.
+ */
 @Entity
 @Table(name = "user_follows", uniqueConstraints = {@UniqueConstraint(columnNames = {"follower_id", "following_id"})})
 public class UserFollow extends BaseEntity {

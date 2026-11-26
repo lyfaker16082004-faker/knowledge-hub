@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng tags: thẻ (nhãn) dùng cho bài viết và tài liệu.
+ */
 @Entity
 @Table(name = "tags")
 public class Tag extends BaseEntity {

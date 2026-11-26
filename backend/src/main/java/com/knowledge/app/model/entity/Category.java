@@ -2,8 +2,10 @@ package com.knowledge.app.model.entity;
 
 import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
+/**
+ * Bảng categories: chủ đề dùng chung cho tài liệu và bài viết.
+ */
 @Entity
 @Table(name = "categories")
 public class Category extends BaseEntity {
@@ -26,16 +28,51 @@ public class Category extends BaseEntity {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getSlug() { return slug; }
-    public void setSlug(String slug) { this.slug = slug; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public Category getParent() { return parent; }
-    public void setParent(Category parent) { this.parent = parent; }
-    public Integer getSortOrder() { return sortOrder; }
-    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getParent() {
+        return parent;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

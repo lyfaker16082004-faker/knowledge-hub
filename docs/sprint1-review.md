@@ -1,5 +1,7 @@
 # Nghiệm thu Sprint 1
 
+> **Ghi chú (24/11/2026):** dự án đã chuyển sang kiểm thử thủ công và gỡ bỏ toàn bộ test tự động (JUnit, Playwright). Số liệu test bên dưới là kết quả tại thời điểm nghiệm thu sprint này.
+
 Project: Knowledge Hub. Ngày cập nhật: 05/11/2026.
 
 Nguồn AC: “Hoàn Thành xác định yêu cầu hệ thống.docx”. Tài liệu được dùng để đối chiếu yêu cầu; không sửa file DOCX gốc. Yêu cầu mới của người dùng về khu quản trị riêng, sidebar, chi tiết và xóa mềm cũng được triển khai. Bản đánh giá trước triển khai: sprint1-audit-before.md.

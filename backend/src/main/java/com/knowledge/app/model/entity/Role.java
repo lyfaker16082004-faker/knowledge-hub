@@ -4,6 +4,9 @@ import com.knowledge.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Bảng roles: các vai trò ADMIN, MODERATOR, USER.
+ */
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity {

@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
+/**
+ * Bảng document_bookmarks: tài liệu người dùng lưu để "Đọc sau".
+ */
 @Entity
 @Table(name="document_bookmarks")
 public class DocumentBookmark extends BaseEntity {
