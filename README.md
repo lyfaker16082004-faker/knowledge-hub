@@ -200,8 +200,7 @@ Database và file upload **không nằm trên GitHub** (repo công khai, dữ li
 rồi gửi file `team-data/knowledge-hub-data-<ngày>.zip` qua Drive / Zalo. Người nhận **tắt backend**, chạy:
 
 ```powershell
-.\scripts
-estore-team-data.ps1 -Package "D:\Downloads\knowledge-hub-data-<ngày>.zip"
+.\scripts\restore-team-data.ps1 -Package "D:\Downloads\knowledge-hub-data-<ngày>.zip"
 ```
 
 Script tự tạo database `knowledge_hub` nếu chưa có, sao lưu dữ liệu cũ vào `backend/storage/backups/`, nạp database và giải nén tài liệu / ảnh vào `backend/storage/`. Sau đó chạy backend như bình thường.
