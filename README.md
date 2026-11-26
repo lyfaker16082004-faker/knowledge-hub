@@ -187,6 +187,37 @@ Schema hiện có **26 bảng**, quản lý bằng **10 migration Flyway**. MySQ
 
 Ưu tiên khởi tạo bằng Flyway khi chạy ứng dụng. File SQL độc lập phục vụ tham khảo/minh chứng schema; không import rồi chạy migration trên cùng database mới nếu chưa thiết lập baseline phù hợp. Không sửa các migration đã áp dụng.
 
+## Dữ liệu dùng chung cho team
+
+Database và file upload **không nằm trên GitHub** (repo công khai, dữ liệu có thông tin tài khoản). Có 2 cách để có dữ liệu giống nhau:
+
+**Cách 1 — Nạp gói dữ liệu (giống hệt máy người gửi).** Người có dữ liệu chạy:
+
+```powershell
+.\scripts\export-team-data.ps1
+```
+
+rồi gửi file `team-data/knowledge-hub-data-<ngày>.zip` qua Drive / Zalo. Người nhận **tắt backend**, chạy:
+
+```powershell
+.\scriptsestore-team-data.ps1 -Package "D:\Downloads\knowledge-hub-data-<ngày>.zip"
+```
+
+Script tự tạo database `knowledge_hub` nếu chưa có, sao lưu dữ liệu cũ vào `backend/storage/backups/`, nạp database và giải nén tài liệu / ảnh vào `backend/storage/`. Sau đó chạy backend như bình thường.
+
+**Cách 2 — Tự tạo dữ liệu mẫu bằng script** (không có các tài liệu PDF đã upload tay):
+
+```powershell
+# 1. Tạo tài khoản quản trị quantri / 12345678
+& "C:\Program Files\MySQL\MySQL Server 8.0in\mysql.exe" -uroot -p --default-character-set=utf8mb4 knowledge_hub -e "source scripts/create-demo-admin.sql"
+# 2. Backend đang chạy, tạo tài khoản, bài viết, bình luận, tài liệu mẫu
+python scripts/seed_demo_data.py
+# 3. (Tuỳ chọn) Thêm tài liệu PPTX / DOCX / ZIP / PDF lấy từ internet
+python scripts/import_web_documents.py --folder web-docs
+```
+
+Danh sách tài khoản để đăng nhập: [docs/demo-accounts.md](docs/demo-accounts.md).
+
 ## Kiểm thử
 
 Dự án kiểm thử **thủ công** trên giao diện, không dùng test tự động (JUnit / Playwright đã được gỡ bỏ).
